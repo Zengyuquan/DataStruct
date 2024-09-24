@@ -1,7 +1,5 @@
-#include <process.h>
+#include "stdlib.h"
 #include "stdio.h"
-
-void PrintList(int data[],int length);
 
 #define MAXLEN 100
 typedef int DataType;
@@ -12,7 +10,7 @@ typedef struct {
 
 // 初始化
 void InitSeqList( SeqList* L)       //构造一个空的顺序表L
-{
+    {
     L->length = 0;                  //空表长度为0
 }
 
@@ -26,7 +24,7 @@ void CreateSeqList(SeqList* L, int n)
 }
 
 // 按元素位置查找
-DataType CetElem(SeqList* L,int i)
+DataType GetElem(SeqList* L,int i)
 {
     if(i<1 || i > L->length)
     {
@@ -37,30 +35,82 @@ DataType CetElem(SeqList* L,int i)
         return L->data[i-1];
 }
 
+// 按值查找
+int LocalSeqList(SeqList* L, DataType x)
+{
+    int i = 0;
+    while(i < L->length && L->data[i] != x)
+        i++;
+    if(i == L->length)
+    {
+        printf("要定位的元素不存在！\n");
+        return -1;
+    }else
+    {
+        return i + 1;
+    }
+}
+
+// 元素的插入
+void InsertSeqList(SeqList* L, DataType x, int i)
+{
+    int j;
+    if(i < 1 || i > L->length + 1)
+    {
+        printf("position error");
+        exit(1);
+    }
+    if(L->length == MAXLEN)
+    {
+        printf("overflow");
+        exit(1);
+    }
+    for (j = L->length-1; j >= i - 1; j--) {
+        L->data[j + 1] = L->data[j];
+    }
+    L->data[i - 1] = x;
+    L->length++;
+}
+
+int DeleteSeqList(SeqList* L, int i)
+{
+    int k;
+    int x;
+    if(L->length == 0)
+    {
+        printf("线性表L为空！\n");
+        return -1;
+    }
+    else if(i < 1 || i > L->length)
+    {
+        printf("要删除的数据元素不存在！\n");
+        return -1;
+    }
+    else{
+        x = L->data[i - 1];
+        for (k = i; k < L->length; k++) {
+            L->data[k - 1] = L->data[k];
+        }
+        L->length--;
+    return x;
+    }
+}
+
+void PrintSeqList(SeqList* L)
+{
+    int i;
+    if(L->length == 0)
+        printf("线性表L为空！\n");
+    else
+        for (i = 0; i < L->length; i++) {
+            printf("%d\t", L->data[i]);
+        }
+    printf("\n");
+}
+
 
 int main()
 {
 
-    SeqList list;
-    int n = 0;
-
-    InitSeqList(&list);
-
-    scanf("%d", &n);
-
-    CreateSeqList(&list, n);
-
-//    PrintList(list.data, n);
-
-
-
     return 0;
-}
-
-void PrintList(int data[],int length)
-{
-    printf("列表为：");
-    for (int i = 0; i < length; i++) {
-        printf("%d ", data[i]);
-    }
 }
