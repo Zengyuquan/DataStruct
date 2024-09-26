@@ -72,6 +72,7 @@ void InsertSeqList(SeqList* L, DataType x, int i)
     L->length++;
 }
 
+// 元素的删除
 int DeleteSeqList(SeqList* L, int i)
 {
     int k;
@@ -96,6 +97,7 @@ int DeleteSeqList(SeqList* L, int i)
     }
 }
 
+// 打印输出
 void PrintSeqList(SeqList* L)
 {
     int i;
