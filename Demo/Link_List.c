@@ -17,7 +17,7 @@ LinkList InitLinkList()
         printf("分配空间失败！\n");
         exit(1);
     }
-    L->next = NULL;                                 // 头指针结点域设置为空
+    L->next = NULL;                                 // 头指针结点指针域设置为空
     return L;                                       // 返回单链表头指针
 }
 

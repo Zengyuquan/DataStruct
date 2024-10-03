@@ -9,7 +9,7 @@ typedef struct {
 }SeqList;
 
 // 初始化
-void InitSeqList( SeqList* L)       //构造一个空的顺序表L
+void InitSeqList(SeqList* L)       //构造一个空的顺序表L
     {
     L->length = 0;                  //空表长度为0
 }
@@ -114,6 +114,27 @@ void PrintSeqList(SeqList* L)
 int main()
 {
 
+    SeqList num;
+
+    InitSeqList(&num);
+
+    int n = 6;
+    CreateSeqList(&num, n);
+
+    PrintSeqList(&num);
+
+    int a;
+    scanf("%d", &a);
+//    DeleteSeqList(&num, a);
+
+//    DataType e = GetElem(&num, a);
+//    int e = LocalSeqList(&num, a);
+
+//    InsertSeqList(&num, 6, 100000);
+
+
+//    printf("%d", e);
+    PrintSeqList(&num);
 
     return 0;
 }

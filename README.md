@@ -1,4 +1,4 @@
-## Sequence_List
+## Sequence_List（顺序表）
 
 ### 顺序表的定义
 
@@ -22,13 +22,13 @@ typedef struct {
 ### 顺序表的初始化
 
 ```c
-void InitSeqList( SeqList* L)       //构造一个空的顺序表L
+void InitSeqList(SeqList* L)       //构造一个空的顺序表L
     {
     L->length = 0;                  //空表长度为0
 }
 ```
 
-1、定义一个InitSeqList()方法，形参是SeqList类型的指针L。
+1、定义一个InitSeqList()函数，形参是SeqList类型的指针L。
 
 2、把顺序表的长度设置为0，表示顺序表存在，但目前没有参数，为空。
 
@@ -46,7 +46,7 @@ void CreateSeqList(SeqList* L, int n)
 }
 ```
 
-1、定义一个CreateSeqList()方法，形参是SeqList类型的指针L和顺序表的长度n。
+1、定义一个CreateSeqList()函数，形参是SeqList类型的指针L和顺序表的长度n。
 
 2、利用for循环，从键盘输入数据到顺序表；利用i的自增，从0开始到n-1结束，添加到顺序表中。
 
@@ -71,7 +71,7 @@ DataType GetElem(SeqList* L,int i)
 }
 ```
 
-1、定义一个GetElem()方法，形参是SeqList类型的指针L和希望查找的位置i。
+1、定义一个GetElem()函数，形参是SeqList类型的指针L和希望查找的位置i。
 
 2、利用if判断查找的位置是否合法，其合法范围是i大于或等于1且1小于或等于length，即顺序表实时的长度。所以if的判断条件是
 
@@ -104,7 +104,7 @@ int LocalSeqList(SeqList* L, DataType x)
 }
 ```
 
-1、定义一个LocalSeqList()方法，形参是SeqList类型的指针L和希望在顺序表中查找的值x。
+1、定义一个LocalSeqList()函数，形参是SeqList类型的指针L和希望在顺序表中查找的值x。
 
 2、定义一个int型变量i，利用while找出期望的值与顺序表中值的匹配情况；其查找的范围是i小于顺序表实时的长度，且判断顺序表中的元素是否匹配希望查找的值。若不匹配顺序表中的元素，则i++自增。
 
@@ -138,7 +138,7 @@ void InsertSeqList(SeqList* L, DataType x, int i)
 }
 ```
 
-1、定义一个InsertSeqList()方法，形参是SeqList类型的指针L和希望插入的值x，希望插入的位置i。
+1、定义一个InsertSeqList()函数，形参是SeqList类型的指针L和希望插入的值x，希望插入的位置i。
 
 2、利用if判断插入的位置是否合法，其合法范围是i大于或等于1且1小于或等于length+1，即顺序表实时的长度。所以if的判断条件是
 
@@ -184,7 +184,7 @@ int DeleteSeqList(SeqList* L, int i)
 }
 ```
 
-1、定义一个DeleteSeqList()方法，形参是SeqList类型的指针L和希望删除的位置i。
+1、定义一个DeleteSeqList()函数，形参是SeqList类型的指针L和希望删除的位置i。
 
 2、利用if循环判断顺序表实时的长度是否等于0，若等于0；则表示线性表为空，不能进行删除存操作；打印”线性表L为空！“返回-1，表示删除失败。
 
@@ -224,8 +224,132 @@ void PrintSeqList(SeqList* L)
 }
 ```
 
-1、定义一个DeleteSeqList()方法，形参是SeqList类型的指针L。
+1、定义一个DeleteSeqList()函数，形参是SeqList类型的指针L。
 
 2、利用if判断顺序表是否为空，若为空，则无法输出打印元素，打印”线性表L为空！“。
 
 3、若顺序表不为空，则用for循环遍历出顺序表中的值。
+
+
+
+
+
+
+
+
+
+## Link_List（单链表）
+
+### 链表的定义
+
+```c
+typedef int DataType;
+typedef struct node{        // 结点类型定义
+    DataType data;          // 结点的数据域
+    struct node* next;      // 结点的指针域
+}LinkNode, *LinkList;
+```
+
+1、typedef定义DataType为int型，为int起别名。
+
+2、定义链表的结构体node，并起别名为LinkNode和LinkList的结构体指针；结构体中定义了两个变量，其中DataType data; 为链表的数据域，来存储结点的数据；而struct node* next;为链表的指针域，存储指向下一个结点的指针。
+
+
+
+### 链表的初始化
+
+为了操作的统一性，单链表的基本运算的实现都带头结点。
+
+```c
+LinkList InitLinkList()
+{
+    LinkList L;
+    L = (LinkNode*) malloc(sizeof(LinkNode));       // 为单链表头指针申请表头指针结点空间
+    if(L == NULL)
+    {
+        printf("分配空间失败！\n");
+        exit(1);
+    }
+    L->next = NULL;                                 // 头指针结点指针域设置为空
+    return L;                                       // 返回单链表头指针
+}
+```
+
+1、定义一个InitLinkList()函数，无传入形参，返回L（头指针）。
+
+2、定义一个LinkList类型的指针L，将作为头指针。
+
+3、(LinkNode*) malloc(sizeof(LinkNode));	利用malloc函数分配，其大小为sizeof(LInkNode)，结构体的内存长度为16（64为操作系统中）；并用 (LinkNode\*)强转为LinkNode类型的指针，最后赋值给L。
+
+4、利用if判断L是否为NULL；若为NULL，说明malloc内存地址分配失败，打印分配空间失败！，并执行exit(1)退出程序。
+
+5、若malloc内存地址分配成功，则将头指针结点指针域设置为NULL，并将L返回。
+
+
+
+### 链表的创建
+
+#### 头插法
+
+```c
+LinkList CreateHeadLinkList(LinkList L)
+{
+    LinkNode* p;
+    DataType x;
+    scanf("%d", &x);
+    while(x != 0)       // 0表示输入结束
+    {
+        p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
+        if(p == NULL)
+        {
+            printf("分配空间失败！\n");
+            exit(1);
+        }
+        p->data = x;
+        p->next = L->next;
+        L->next = p;
+        scanf("%d", &x);
+    }
+    return L;               // 返回单链表头指针
+}
+```
+
+
+
+
+
+
+
+
+
+#### 尾插法
+
+```c
+LinkList CreateTailLinkList(LinkList L)         // 尾插法创建单链表
+{
+    DataType x;
+    LinkNode *p, *t;
+    t = L;
+    scanf("%d", &x);
+    while(x != 0)                           // 0表示输入结束
+    {
+        p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
+        if(p == NULL)
+        {
+            printf("分配空间失败！\n");
+            exit(1);
+        }
+        p->data = x;                // 或者p->next = NULL;
+        p->next = t->next;
+        t->next = p;
+        t = p;
+        scanf("%d", &x);
+    }
+    return L;                       // 返回表头指针
+}
+```
+
+
+
+
+
