@@ -115,25 +115,68 @@ int main()
 {
 
     SeqList num;
-
     InitSeqList(&num);
 
-    int n = 6;
+    int n = 8;
     CreateSeqList(&num, n);
-
     PrintSeqList(&num);
 
-    int a;
-    scanf("%d", &a);
-//    DeleteSeqList(&num, a);
+    // 按元素位置查找
+//    int i = 5;
+//    DataType x;
+//    x = GetElem(&num, i);
+//
+//    printf("%x\n", x);
 
-//    DataType e = GetElem(&num, a);
-//    int e = LocalSeqList(&num, a);
+    // 按值查找
+//    int i;
+//    DataType x = 6;
+//    i = LocalSeqList(&num, x);
+//    printf("%d\n", i);
 
-//    InsertSeqList(&num, 6, 100000);
+    // 插入元素
+//    int i = 4;
+//    DataType x = 0;
+//    InsertSeqList(&num, x, i);
+//    PrintSeqList(&num);
 
 
-//    printf("%d", e);
+    // 删除元素
+//    int i = 5;
+//    int e;
+//    e = DeleteSeqList(&num, i);
+//    printf("删除的元素是：%d\n", e);
+//    PrintSeqList(&num);
+
+    // 顺序表输出打印
+//    PrintSeqList(&num);
+
+
+    // 在表头插入元素
+//    int i = 1;
+//    DataType x = 9;
+//    InsertSeqList(&num, x, i);
+//    PrintSeqList(&num);
+
+    // 在表尾插入元素
+//    int i = num.length + 1;
+//    DataType x = 0;
+//    InsertSeqList(&num, x, i);
+//    PrintSeqList(&num);
+
+
+    // 删除表头元素
+//    int i = 1;
+//    int e;
+//    e = DeleteSeqList(&num, i);
+//    printf("删除的元素是：%d\n", e);
+//    PrintSeqList(&num);
+
+    // 删除表尾元素
+    int i = num.length;
+    int e;
+    e = DeleteSeqList(&num, i);
+    printf("删除的元素是：%d\n", e);
     PrintSeqList(&num);
 
     return 0;
