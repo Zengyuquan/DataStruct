@@ -26,9 +26,11 @@ LinkList CreateHeadLinkList(LinkList L)
 {
     LinkNode* p;
     DataType x;
-    scanf("%d", &x);
-    while(x != 0)       // 0表示输入结束
+    int n;
+    scanf("%d", &n);
+    while(n)       // 当n为0时表示输入结束
     {
+        scanf("%d", &x);
         p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
         if(p == NULL)
         {
@@ -38,7 +40,7 @@ LinkList CreateHeadLinkList(LinkList L)
         p->data = x;
         p->next = L->next;
         L->next = p;
-        scanf("%d", &x);
+        n--;
     }
     return L;               // 返回单链表头指针
 }
@@ -49,25 +51,27 @@ LinkList CreateTailLinkList(LinkList L)         // 尾插法创建单链表
     DataType x;
     LinkNode *p, *t;
     t = L;
-    scanf("%d", &x);
-    while(x != 0)                           // 0表示输入结束
+    int n;
+    scanf("%d", &n);
+    while(n)                           // 当n为0时表示输入结束
     {
+        scanf("%d", &x);
         p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
         if(p == NULL)
         {
             printf("分配空间失败！\n");
             exit(1);
         }
-        p->data = x;                // 或者p->next = NULL;
-        p->next = t->next;
+        p->data = x;
+        p->next = t->next;          // 或者p->next = NULL;
         t->next = p;
         t = p;
-        scanf("%d", &x);
+        n--;
     }
     return L;                       // 返回表头指针
 }
 
-// 求单列表长度
+// 求单链表长度
 int getLinkListLength(LinkList  L)
 {
     int length = 0;
@@ -146,38 +150,16 @@ void printLinkList(LinkList L)
 
 }
 
-// 摧毁链表
-void DestroyLinkList(LinkNode *L)
-{
-    LinkNode *pre = L;
-    LinkNode *p = pre->next;
-    while(p != NULL)
-    {
-        free(pre);
-        pre = p;
-        p = p->next;
-    }
-}
+
 int main()
 {
-    LinkList stu = InitLinkList();
-    CreateTailLinkList(stu);
+    LinkList num;
 
-    int i = getLinkListLength(stu);
-    printf("%d\n", i);
-    printLinkList(stu);
+    num = InitLinkList();
+    num = CreateHeadLinkList(num);
+//    num = CreateTailLinkList(num);
 
-    LinkList p1 =  getLinkNode_1(stu, 1);
-    LinkList p2 =  getLinkNode_1(stu, 2);
-    printf("%p %p\n", p1, p2);
-
-
-
-    deleteLinkNode(stu, 5);
-    printLinkList(stu);
-
-//    DestroyLinkList(stu);
-//    printLinkList(stu);
+    printLinkList(num);
 
     return 0;
 }

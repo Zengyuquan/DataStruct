@@ -240,7 +240,7 @@ void PrintSeqList(SeqList* L)
 
 ## Link_List（单链表）
 
-### 链表的定义
+### 单链表的定义
 
 ```c
 typedef int DataType;
@@ -252,11 +252,11 @@ typedef struct node{        // 结点类型定义
 
 1、typedef定义DataType为int型，为int起别名。
 
-2、定义链表的结构体node，并起别名为LinkNode和LinkList的结构体指针；结构体中定义了两个变量，其中DataType data; 为链表的数据域，来存储结点的数据；而struct node* next;为链表的指针域，存储指向下一个结点的指针。
+2、定义链表的结构体node，并起别名为LinkNode和LinkList的结构体指针（通常用于表示链表的头指针）；结构体中定义了两个变量，其中DataType data 为链表的数据域，用来存储结点的数据；而struct node* next;为链表的指针域，存储指向下一个结点的指针。
 
 
 
-### 链表的初始化
+### 单链表的初始化
 
 为了操作的统一性，单链表的基本运算的实现都带头结点。
 
@@ -279,7 +279,7 @@ LinkList InitLinkList()
 
 2、定义一个LinkList类型的指针L，将作为头指针。
 
-3、(LinkNode*) malloc(sizeof(LinkNode));	利用malloc函数分配，其大小为sizeof(LInkNode)，结构体的内存长度为16（64为操作系统中）；并用 (LinkNode\*)强转为LinkNode类型的指针，最后赋值给L。
+3、(LinkNode*) malloc(sizeof(LinkNode));	利用malloc函数分配地址空间，其大小为sizeof(LInkNode)，结构体的内存长度为16（64为操作系统中）；并用 (LinkNode\*)强转为LinkNode类型的指针，最后赋值给L。
 
 4、利用if判断L是否为NULL；若为NULL，说明malloc内存地址分配失败，打印分配空间失败！，并执行exit(1)退出程序。
 
@@ -287,7 +287,7 @@ LinkList InitLinkList()
 
 
 
-### 链表的创建
+### 单链表的创建
 
 #### 头插法
 
@@ -296,9 +296,11 @@ LinkList CreateHeadLinkList(LinkList L)
 {
     LinkNode* p;
     DataType x;
-    scanf("%d", &x);
-    while(x != 0)       // 0表示输入结束
+    int n;
+    scanf("%d", &n);
+    while(n)       // 当n为0时表示输入结束
     {
+        scanf("%d", &x);
         p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
         if(p == NULL)
         {
@@ -308,15 +310,21 @@ LinkList CreateHeadLinkList(LinkList L)
         p->data = x;
         p->next = L->next;
         L->next = p;
-        scanf("%d", &x);
+        n--;
     }
     return L;               // 返回单链表头指针
 }
 ```
 
+1、定义一个CreateHeadLinkList()函数，形参是LinkList L（链表的头指针地址），最终返回头指针LinkList L。
 
+2、定义一个LinkNode* p指针变量用来指向新开辟的地址空间，定义DataType x来存储从键盘输入的数据，int n接收来着键盘输入希望插入接点个数的值。
 
+3、利用while循环n次为链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
 
+4、如果分配成功内存地址，则将x的值赋值给该结点的数据域；将L->next原本所指向的下一个结点指针域赋值给p的指向的下一个结点指针域；再将p指针赋值给L->next向的下一个结点的指针域；如此循环完成头插法插入。
+
+5、最后i自减，返回L头指针。
 
 
 
@@ -330,26 +338,138 @@ LinkList CreateTailLinkList(LinkList L)         // 尾插法创建单链表
     DataType x;
     LinkNode *p, *t;
     t = L;
-    scanf("%d", &x);
-    while(x != 0)                           // 0表示输入结束
+    int n;
+    scanf("%d", &n);
+    while(n)                           // 当n为0时表示输入结束
     {
+        scanf("%d", &x);
         p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
         if(p == NULL)
         {
             printf("分配空间失败！\n");
             exit(1);
         }
-        p->data = x;                // 或者p->next = NULL;
-        p->next = t->next;
+        p->data = x;                
+        p->next = t->next;			// 或者p->next = NULL;
         t->next = p;
         t = p;
-        scanf("%d", &x);
+        n--;
     }
     return L;                       // 返回表头指针
 }
 ```
 
+1、定义一个CreateTailLinkList()函数，形参是LinkList L（链表的头指针地址），最终返回头指针LinkList L。
+
+2、定义一个LinkNode* p指针变量用来指向新开辟的地址空间；一个LinkNode* t 指针变量来记录头指针地址；定义DataType x来存储从键盘输入的数据，int n接收来着键盘输入希望插入接点个数的值。
+
+3、利用while循环n次为链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
+
+4、如果分配成功内存地址，则将x的值赋值给该结点的数据域；将t->next赋值给p的指向的下一个结点指针域，也等同于或者p->next = NULL；再将p指针赋值给t->next指向的下一个结点的指针域；最后将p指针赋值给t指针，t指针又指向最后一个结点；如此循环完成尾插法插入。
+
+5、最后i自减，返回L头指针。
 
 
 
+### 求单链表长度
+
+```c
+int getLinkListLength(LinkList  L)
+{
+    int length = 0;
+    LinkList p;
+    p = L->next;
+    while(p){
+        length++;
+        p = p->next;
+    }
+    return length;
+}
+```
+
+
+
+### 获取单链表第i个元素指针
+
+```c
+LinkList getLinkNode_1(LinkList L, int i)
+{
+    int j = 1;
+    LinkNode* p;
+    if(i < 1 || i > getLinkListLength(L))
+    {
+        printf("查找位置不正确！");
+        exit(1);
+    }
+    p = L->next;
+    while (p != NULL && j < i)
+    {
+        p = p->next;
+        j++;
+    }
+    return p;
+}
+```
+
+
+
+### 获取单链表中值为e的第一个元素指针
+
+```c
+LinkList getLinkNode_2(LinkList L, DataType e)
+{
+    LinkNode * p = L->next;
+    while (p != NULL && p->data != e)
+    {
+        p = p->next;
+    }
+    return p;
+}
+```
+
+
+
+### 删除单链表中第i个元素
+
+```c
+void deleteLinkNode(LinkList L, int i)
+{
+    LinkNode *p, *q;
+    int j = 1;
+    q = L;
+    if(i < 1 || i > getLinkListLength(L))
+    {
+        printf("删除位置不正确！");
+        exit(1);
+    }
+    while(j < i)
+    {
+        q = q->next;
+        j++;
+    }
+    p = q->next;
+    q->next = p->next;
+    free(p);
+
+}
+```
+
+
+
+### 输出单链表中的元素
+
+```c
+void printLinkList(LinkList L)
+{
+    LinkNode* p;
+    p = L->next;
+    while(p != NULL)
+    {
+        printf("%d\t", p->data);
+        p = p->next;
+    }
+    printf("\n");
+
+}
+```
 
