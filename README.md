@@ -73,7 +73,7 @@ DataType GetElem(SeqList* L,int i)
 
 1、定义一个GetElem()函数，形参是SeqList类型的指针L和希望查找的位置i。
 
-2、利用if判断查找的位置是否合法，其合法范围是i大于或等于1且1小于或等于length，即顺序表实时的长度。所以if的判断条件是
+2、利用if判断查找的位置是否合法，其合法范围是i大于或等于1且i小于或等于length，即顺序表实时的长度。所以if的判断条件是
 
 ```c
 if(i<1 || i > L->length)
@@ -140,7 +140,7 @@ void InsertSeqList(SeqList* L, DataType x, int i)
 
 1、定义一个InsertSeqList()函数，形参是SeqList类型的指针L和希望插入的值x，希望插入的位置i。
 
-2、利用if判断插入的位置是否合法，其合法范围是i大于或等于1且1小于或等于length+1，即顺序表实时的长度。所以if的判断条件是
+2、利用if判断插入的位置是否合法，其合法范围是i大于或等于1且i小于或等于length+1，即顺序表实时的长度。所以if的判断条件是
 
 ```c
 if(i<1 || i > L->length + 1)
@@ -188,7 +188,7 @@ int DeleteSeqList(SeqList* L, int i)
 
 2、利用if循环判断顺序表实时的长度是否等于0，若等于0；则表示线性表为空，不能进行删除存操作；打印”线性表L为空！“返回-1，表示删除失败。
 
-3、else if再判断删除的位置是否合法，其合法范围是i大于或等于1且1小于或等于length，即顺序表实时的长度。所以if的判断条件是
+3、else if再判断删除的位置是否合法，其合法范围是i大于或等于1且i小于或等于length，即顺序表实时的长度。所以if的判断条件是
 
 ```c
 if(i<1 || i > L->length)
@@ -281,7 +281,7 @@ LinkList InitLinkList()
 
 3、(LinkNode*) malloc(sizeof(LinkNode));	利用malloc函数分配地址空间，其大小为sizeof(LInkNode)，结构体的内存长度为16（64为操作系统中）；并用 (LinkNode\*)强转为LinkNode类型的指针，最后赋值给L。
 
-4、利用if判断L是否为NULL；若为NULL，说明malloc内存地址分配失败，打印分配空间失败！，并执行exit(1)退出程序。
+4、利用if判断L是否为NULL；若为NULL，说明malloc内存地址分配失败，打印“分配空间失败！"，并执行exit(1)退出程序。
 
 5、若malloc内存地址分配成功，则将头指针结点指针域设置为NULL，并将L返回。
 
@@ -320,7 +320,7 @@ LinkList CreateHeadLinkList(LinkList L)
 
 2、定义一个LinkNode* p指针变量用来指向新开辟的地址空间，定义DataType x来存储从键盘输入的数据，int n接收来着键盘输入希望插入接点个数的值。
 
-3、利用while循环n次为链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
+3、利用while循环n次为单链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
 
 4、如果分配成功内存地址，则将x的值赋值给该结点的数据域；将L->next原本所指向的下一个结点指针域赋值给p的指向的下一个结点指针域；再将p指针赋值给L->next向的下一个结点的指针域；如此循环完成头插法插入。
 
@@ -363,7 +363,7 @@ LinkList CreateTailLinkList(LinkList L)         // 尾插法创建单链表
 
 2、定义一个LinkNode* p指针变量用来指向新开辟的地址空间；一个LinkNode* t 指针变量来记录头指针地址；定义DataType x来存储从键盘输入的数据，int n接收来着键盘输入希望插入接点个数的值。
 
-3、利用while循环n次为链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
+3、利用while循环n次为单链表的数据域赋值；(LinkNode*)malloc(sizeof(LinkNode))分配一片地址空间，并把指针地址赋值给p指针变量。if判断地址分配是否成功，若不成功，则打印“分配空间失败！”，并执行exit(1) 退出程序。
 
 4、如果分配成功内存地址，则将x的值赋值给该结点的数据域；将t->next赋值给p的指向的下一个结点指针域，也等同于或者p->next = NULL；再将p指针赋值给t->next指向的下一个结点的指针域；最后将p指针赋值给t指针，t指针又指向最后一个结点；如此循环完成尾插法插入。
 
@@ -387,6 +387,14 @@ int getLinkListLength(LinkList  L)
 }
 ```
 
+1、定义一个getLinkListLength()函数，形参是LinkList L（链表的头指针地址），最终返回求得的单链表长度length。
+
+2、定义一个int length变量并赋值为0，负责接收所求单链表长度；LinkList p指针变量接收L头指针指向的下一个结点指针。
+
+3、利用while循环，判断条件是p指针是否为0，为0则退出循环。不为0执行循环体内的语句，length++自增，并把p指向的下一个指针赋值给p，起到移动p指针的作用。
+
+4、最后将得到的length返回。
+
 
 
 ### 获取单链表第i个元素指针
@@ -398,7 +406,7 @@ LinkList getLinkNode_1(LinkList L, int i)
     LinkNode* p;
     if(i < 1 || i > getLinkListLength(L))
     {
-        printf("查找位置不正确！");
+        printf("获取位置不正确！");
         exit(1);
     }
     p = L->next;
@@ -410,6 +418,24 @@ LinkList getLinkNode_1(LinkList L, int i)
     return p;
 }
 ```
+
+1、定义一个getLinkNode_1()函数，形参是LinkList L（链表的头指针地址），int i希望获取的第i个结点的元素指针，返回p指针。
+
+2、定义int j = 1，作为一个计数器，初始值为1，用于统计单链表中的结点数；LinkNode* p被赋值L头指针的下一个结点指针。
+
+3、利用if判断i获取的位置是否合法，其合法范围是i大于或等于1且i小于或等于getLinkListLength(L)，调取getLinkListLength()函数得到单链表的长度；所以if的判断条件是
+
+```c
+if(i < 1 || i > getLinkListLength(L))
+```
+
+若获取的位置在范围内。则打印“查找位置不正确！”，并执行exit(1)退出程序。
+
+4、将L头指针指向的下一个结点指针赋值给p。
+
+5、利用while循环，移动p指针指向的地址，并执行j++统计单链表结点数量；其判断条件是p所指向的指针不为空，若为空，则到链表的尾结点；且j的值小于i，即找到i结点。
+
+6、最终将找到的该结点地址返回。
 
 
 
@@ -426,6 +452,14 @@ LinkList getLinkNode_2(LinkList L, DataType e)
     return p;
 }
 ```
+
+1、定义一个getLinkNode_2()函数；形参是LinkList L（链表的头指针地址），希望获取的结点元素DataType e的地址。
+
+2、定义一个LinkNode * p指针变量，并被L头指针所指向的下一个结点地址所赋值。
+
+3、利用while循环，执行条件是p所指向的指针不为空，且p指向结点的数据域不等于e；若满足条件则执行p = p->next，移动p指针指向的地址；直到p指向结点的数据域等于e。
+
+4、最后将p的地址指针返回。
 
 
 
@@ -454,6 +488,24 @@ void deleteLinkNode(LinkList L, int i)
 }
 ```
 
+1、定义一个deleteLinkNode()函数，形参是LinkList L（链表的头指针地址），int i希望删除的第i个结点的元素位置。
+
+2、LinkNode* p将被赋值指向要删除的结点；q指针变量用于指向要删除结点的前一个结点。；定义int j = 1，作为一个计数器，初始值为1，用于统计单链表中的结点数。
+
+3、利用if判断i删除的位置是否合法，其合法范围是i大于或等于1且i小于或等于getLinkListLength(L)，调取getLinkListLength()函数得到单链表的长度；所以if的判断条件是
+
+```c
+if(i < 1 || i > getLinkListLength(L))
+```
+
+若获取的位置在范围内。则打印“删除位置不正确！”，并执行exit(1)退出程序。
+
+4、利用while循环，条件是(j < i)，通过j计数器的自增和将q的下一个结点指针赋值给q，来实现移动p指针的作用；循环到希望删除的位置的上一个结点。
+
+5、将q指向的下一个结点，即希望删除结点的指针赋值给p；再将希望删除结点的下一个结点地址赋值给的删除结点的上一个节点指针域(q->next)。
+
+6、最后free(p)释放p指向结点(希望删除的结点)的地址空间。
+
 
 
 ### 输出单链表中的元素
@@ -473,3 +525,10 @@ void printLinkList(LinkList L)
 }
 ```
 
+1、定义一个printLinkList()函数，形参是LinkList L（链表的头指针地址）。
+
+2、定义一个LinkNode* p指针变量，并赋值为L的指向的下一个结点。
+
+3、利用while循环判断p指针指向的地址是否为空；若不为空，则打印出该指针p的结点数据域data。
+
+4、将p指针指向的下一个结点指针赋值给p，起到移动p指针的作用。

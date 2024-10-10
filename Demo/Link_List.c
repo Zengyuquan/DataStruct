@@ -91,7 +91,7 @@ LinkList getLinkNode_1(LinkList L, int i)
     LinkNode* p;
     if(i < 1 || i > getLinkListLength(L))
     {
-        printf("查找位置不正确！");
+        printf("获取位置不正确！\n");
         exit(1);
     }
     p = L->next;
@@ -153,13 +153,10 @@ void printLinkList(LinkList L)
 
 int main()
 {
+
     LinkList num;
-
     num = InitLinkList();
-    num = CreateHeadLinkList(num);
-//    num = CreateTailLinkList(num);
 
-    printLinkList(num);
 
     return 0;
 }
