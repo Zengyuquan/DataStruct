@@ -10,7 +10,7 @@ typedef struct {
 
 // 初始化
 void InitSeqList(SeqList* L)       //构造一个空的顺序表L
-    {
+{
     L->length = 0;                  //空表长度为0
 }
 

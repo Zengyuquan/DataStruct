@@ -53,7 +53,7 @@ LinkList CreateTailLinkList(LinkList L)         // 尾插法创建单链表
     t = L;
     int n;
     scanf("%d", &n);
-    while(n)                           // 当n为0时表示输入结束
+    while(n)
     {
         scanf("%d", &x);
         p = (LinkNode*)malloc(sizeof(LinkNode));    // 为新结点申请空间并将地址存储在p中
@@ -157,6 +157,27 @@ int main()
     LinkList num;
     num = InitLinkList();
 
+//    num = CreateHeadLinkList(num);
+    num = CreateTailLinkList(num);
 
+//    int n;
+//    n = getLinkListLength(num);
+//    printf("%d\n", n);
+
+//    int i = 5;
+//    LinkList p;
+//    p = getLinkNode_1(num, i);
+//    printf("%p %d\n", p, p->data);
+
+//    DataType e = 4;
+//    LinkList p;
+//    p = getLinkNode_2(num, e);
+//    printf("%p %d\n", p, p->data);
+
+//    int i = 1;
+//    printLinkList(num);
+//    deleteLinkNode(num, i);
+
+    printLinkList(num);
     return 0;
 }

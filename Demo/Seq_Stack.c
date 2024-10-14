@@ -44,7 +44,7 @@ void PushSeqStack(SeqStack *SS, DataType  x)
     }
 }
 
-void PopSeqStack(SeqStack *SS, DataType  x)
+void PopSeqStack(SeqStack *SS, DataType *x)
 {
     if(SS->top == 0)
     {
@@ -73,7 +73,6 @@ DataType getStack(SeqStack *SS)
 
 int main()
 {
-    printf("aaaa");
 
     return 0;
 }
