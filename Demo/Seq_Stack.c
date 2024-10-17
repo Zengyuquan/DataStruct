@@ -44,8 +44,9 @@ void PushSeqStack(SeqStack *SS, DataType  x)
     }
 }
 
-void PopSeqStack(SeqStack *SS, DataType *x)
+DataType PopSeqStack(SeqStack *SS)
 {
+    DataType x;
     if(SS->top == 0)
     {
         printf("栈为空，无法出栈！\n");
@@ -55,8 +56,10 @@ void PopSeqStack(SeqStack *SS, DataType *x)
     {
         x = SS->data[SS->top];
         SS->top--;
+        return x;
     }
 }
+
 
 DataType getStack(SeqStack *SS)
 {
@@ -71,8 +74,10 @@ DataType getStack(SeqStack *SS)
     }
 }
 
+
 int main()
 {
+    InitSeqStack(&SS);
 
     return 0;
 }

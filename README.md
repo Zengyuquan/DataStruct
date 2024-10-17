@@ -532,3 +532,159 @@ void printLinkList(LinkList L)
 3、利用while循环判断p指针指向的地址是否为空；若不为空，则打印出该指针p的结点数据域data。
 
 4、将p指针指向的下一个结点指针赋值给p，起到移动p指针的作用。
+
+
+
+## 顺序栈
+
+### 顺序栈的定义
+
+```c
+#define MAXLEN 100
+typedef int DataType;
+typedef struct{
+    DataType data[MAXLEN];
+    int top;
+} SeqStack;
+SeqStack SS;
+```
+
+1、首先定义一个顺序栈最大长度的常量——MAXLEN为100。
+
+2、typedef定义DataType为int型，为int起别名。
+
+3、定义顺序栈的结构体，并起别名为SeqStack；定义顺序栈采用静态分配内存空间，其类型为DataType（int）型的数组，数组长度为MAXLEN；同时也定义一个int型的变量——top来记录顺序栈的栈顶。
+
+4、定义了一个顺序栈——SS。
+
+
+
+### 顺序栈的初始化
+
+```c
+void InitSeqStack(SeqStack *SS)
+{
+    SS->top = 0;
+}
+```
+
+1、定义一个InitSeqStack()函数，其形参是SeqStack类型的指针。
+
+2、将栈顶置为0，表示为空栈。
+
+
+
+### 判断顺序栈是否为空
+
+```c
+int EmptySeqStack(SeqStack *SS)
+{
+    if(SS->top == 0)
+        return 1;
+    else
+        return 0;
+}
+```
+
+1、定义一个EmptySeqStack()函数，其形参是SeqStack类型的指针，返回1表示顺序栈为空，若0不为空。
+
+2、利用if判断该顺序栈SS的栈顶是否等于0，若为等于0返回1，表示顺序栈为空，不为空则返回0。
+
+
+
+### 判断顺序栈是否为满
+
+```c
+int FullSeqStack(SeqStack *SS)
+{
+    if(SS->top == MAXLEN - 1)
+        return 1;
+    else
+        return 0;
+}
+```
+
+1、定义一个FullSeqStack()函数，其形参是SeqStack类型的指针，返回1表示顺序栈为满，若0不为满。
+
+2、利用if判断该顺序栈SS的栈顶是否等于顺序栈最大长度MAXLEN -1（下标从0开始）；若符合判断条件返回1，表示顺序栈为满，不为满则返回0。
+
+
+
+### 进栈
+
+```c
+void PushSeqStack(SeqStack *SS, DataType  x)
+{
+    if(SS->top == MAXLEN - 1)
+    {
+        printf("栈已满，无法进栈！\n");
+        exit(1);
+    }
+    else
+    {
+        SS->top++;
+        SS->data[SS->top] = x;
+    }
+}
+```
+
+1、定义一个PushSeqStack()函数，其形参是SeqStack类型的指针和将要进栈的元素。
+
+2、利用if判断顺序栈是否为满，若为满则无法进栈；判断条件与上面判断是否为满栈一样，该顺序栈SS的栈顶是否等于顺序栈最大长度MAXLEN -1（下标从0开始）；若满栈打印“栈已满，无法进栈！”，exit(1)退出程序。
+
+3、若不未满，先将SS的栈顶top自增加一，再将元素赋值给栈顶。
+
+注：假设插入到空栈中，空栈的栈顶是第一个元素的位置，由于先移动栈顶，再插入元素；所以第一个有意义的数据是在栈的第二个位置上。这样的好处是方便判断该栈是否为空。
+
+
+
+### 出栈
+
+```c
+DataType PopSeqStack(SeqStack *SS)
+{
+    DataType x;
+    if(SS->top == 0)
+    {
+        printf("栈为空，无法出栈！\n");
+        exit(1);
+    }
+    else
+    {
+        x = SS->data[SS->top];
+        SS->top--;
+        return x;
+    }
+}
+```
+
+1、定义一个PopSeqStack()函数，其形参是SeqStack类型的指针，返回出栈的元素x。
+
+2、利用if判断顺序栈是否为空，若为空则无法进栈；判断条件与上面判断是否为空栈一样，该顺序栈SS的栈顶是否等于0；若空栈打印“栈已空，无法出栈！”，exit(1)退出程序。
+
+3、若不未空，先将栈顶元素赋值给x，再将栈顶top自减减一；最后将x返回。
+
+
+
+### 读取栈顶元素
+
+```c
+DataType getStack(SeqStack *SS)
+{
+    if(SS->top == 0)
+    {
+        printf("栈为空，不存在元素！\n");
+        exit(1);
+    }
+    else
+    {
+        return SS->data[SS->top];
+    }
+}
+```
+
+1、定义一个getStack()函数，其形参是SeqStack类型的指针。
+
+2、利用if判断顺序栈是否为空，若为空则无法进栈；判断条件与上面判断是否为空栈一样，该顺序栈SS的栈顶是否等于0；若满栈打印“栈已空，无法出栈！”，exit(1)退出程序。
+
+3、若不为空栈，则返回栈顶元素SS->data[SS->top]。
