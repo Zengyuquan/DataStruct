@@ -13,7 +13,7 @@ typedef struct {
 
 1、首先定义一个顺序表最大长度的常量——MAXLEN为100。
 
-2、typedef定义DataType为int型，为int起别名。
+2、typedef定义DataType为int型，为int起别名，这种做法增强了代码的可读性和可维护性。
 
 3、定义顺序表的结构体，并起别名为SeqList；定义顺序表采用静态分配内存空间，其类型为DataType（int）型的数组，数组长度为MAXLEN；同时也定义一个int型的变量——length来记录顺序表的实际表长。
 
@@ -250,7 +250,7 @@ typedef struct node{        // 结点类型定义
 }LinkNode, *LinkList;
 ```
 
-1、typedef定义DataType为int型，为int起别名。
+1、typedef定义DataType为int型，为int起别名，这种做法增强了代码的可读性和可维护性。
 
 2、定义链表的结构体node，并起别名为LinkNode和LinkList的结构体指针（通常用于表示链表的头指针）；结构体中定义了两个变量，其中DataType data 为链表的数据域，用来存储结点的数据；而struct node* next;为链表的指针域，存储指向下一个结点的指针。
 
@@ -535,7 +535,7 @@ void printLinkList(LinkList L)
 
 
 
-## 顺序栈
+## Sequence_Stack（顺序栈）
 
 ### 顺序栈的定义
 
@@ -551,7 +551,7 @@ SeqStack SS;
 
 1、首先定义一个顺序栈最大长度的常量——MAXLEN为100。
 
-2、typedef定义DataType为int型，为int起别名。
+2、typedef定义DataType为int型，为int起别名，这种做法增强了代码的可读性和可维护性。
 
 3、定义顺序栈的结构体，并起别名为SeqStack；定义顺序栈采用静态分配内存空间，其类型为DataType（int）型的数组，数组长度为MAXLEN；同时也定义一个int型的变量——top来记录顺序栈的栈顶。
 
@@ -688,3 +688,149 @@ DataType getStack(SeqStack *SS)
 2、利用if判断顺序栈是否为空，若为空则无法进栈；判断条件与上面判断是否为空栈一样，该顺序栈SS的栈顶是否等于0；若满栈打印“栈已空，无法出栈！”，exit(1)退出程序。
 
 3、若不为空栈，则返回栈顶元素SS->data[SS->top]。
+
+
+
+
+
+## Link_Stack（链栈）
+
+### 链栈的定义
+
+```c
+typedef int DataType;
+typedef struct stacknode{
+    DataType data;
+    struct stacknode* next;
+}StackNode, *LinkStack;
+```
+
+1、‘typedef’定义‘DataType’为‘int’型，为’int‘起别名，这种做法增强了代码的可读性和可维护性。
+
+2、定义链栈的结构体’stacknode‘，并起别名为’StackNode‘和’StackList‘的结构体指针；结构体中定义了两个变量，其中’DataType data ‘为链栈的数据域，用来存储结点的数据；而’struct node* next‘;为链栈的指针域，存储指向下一个’StackNode‘。
+
+
+
+### 链栈的初始化
+
+```c
+LinkStack InitLinkStack()
+{
+    LinkStack top = NULL;
+    return top;
+}
+```
+
+1、定义一个‘InitLinkStack()’函数，用于初始化链栈并返回栈顶指针。
+
+2、定义一个’LinkStack‘类型的变量‘top’，表示栈顶指针；并将其赋值为’NULL‘（指针为空）。
+
+3、最后将其栈顶指针’top‘返回。
+
+
+
+### 判断链栈是否为空
+
+```c
+int EmptyLinkStack(LinkStack top)
+{
+    if(top == NULL)
+        return 1;
+    else
+        return 0;
+}
+```
+
+1、定义一个’EmptyLinkStack()‘函数，用于判断链栈是否为空；传入’LinkStack top‘栈顶指针；返回1表示链栈为空，若0不为空。
+
+2、利用if判断栈顶指针top是否为NULL，若符合判断条件返回1，表示链栈为空，不为空则返回0。
+
+
+
+### 进栈
+
+```c
+LinkStack PushLinkStack(LinkStack top, DataType x)
+{
+    StackNode *p = (StackNode *) malloc(sizeof(StackNode));
+    if (p == NULL)
+    {
+        printf("结点空间申请失败！\n");
+        exit(1);
+    }
+    else
+    {
+        p->data = x;
+        p->next = top;
+        top = p;
+        return top;
+    }
+}
+```
+
+
+
+### 出栈
+
+```c
+LinkStack PopLinkStack(LinkStack top)
+{
+    StackNode* p = top;
+    if(p == NULL)
+    {
+        printf("栈为空！\n");
+        exit(1);
+    }
+    else
+    {
+        DataType x = p->data;
+        top = top->next;
+        free(p);
+        return top;
+    }
+}
+```
+
+
+
+
+
+### 获取栈顶元素
+
+```c
+DataType GetTopLinkStack(LinkStack top)
+{
+    if(top == NULL)
+    {
+        printf("栈为空！\n");
+        exit(1);
+    }
+    else
+        return top->data;
+}
+```
+
+
+
+### 输出链栈的元素
+
+```c
+void  PrintLinkStack(LinkStack top)
+{
+    LinkStack p = top;
+    if(p == NULL)
+    {
+        printf("栈为空！\n");
+        exit(1);
+    }
+    else
+    {
+        while (p != NULL)
+        {
+            printf("%d\t", p->data);
+            p = p->next;
+        }
+    }
+}
+```
+
