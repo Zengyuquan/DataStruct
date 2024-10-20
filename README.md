@@ -768,6 +768,16 @@ LinkStack PushLinkStack(LinkStack top, DataType x)
 }
 ```
 
+1、定义一个’PushLinkStack()‘函数，用于使元素进栈；传入’LinkStack top‘栈顶指针和将进栈的元素‘DataType x’；最后返回栈顶指针。
+
+2、定义一个‘StackNode *p’来接收malloc申请的地址空间指针。申请的地址空间大小为‘StackNode‘变量的大小，类型强转为’StackNode *‘的指针变量。
+
+3、利用if判断，判断p是否为空，若为空，则说明malloc申请的地址空间指针失败；打印“结点空间申请失败！”并exit(1)退出程序。
+
+4、若malloc申请成功，则将x赋值给p的数据域；再将p的指针域指向当前的栈顶结点，即插入新结点到栈中；最后让新插入结点的指针赋值给栈顶指针（top）。
+
+5、返回栈顶指针（top）。
+
 
 
 ### 出栈
@@ -786,12 +796,21 @@ LinkStack PopLinkStack(LinkStack top)
         DataType x = p->data;
         top = top->next;
         free(p);
+        printf("出栈的元素为：%d\n", x);
         return top;
     }
 }
 ```
 
+1、定义一个’PopLinkStack()‘函数，用于使元素出栈；传入’LinkStack top‘栈顶指针；最后返回栈顶指针。
 
+2、定义一个‘StackNode* p’类型的指针变量top，用来表示栈顶指针。
+
+3、利用if判断，判断p是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+
+4、若栈不为空，则先将栈顶元素赋值给定义的‘DataType x’保存元素；再将栈顶的下一个元素的地址指针赋值给top，表示栈顶指针移动到删除元素的下一个元素位置；再通过‘free(p)’释放删除元素的地址空间。
+
+5、最后打印出栈的元素值，返回栈顶指针top。
 
 
 
@@ -809,6 +828,12 @@ DataType GetTopLinkStack(LinkStack top)
         return top->data;
 }
 ```
+
+1、定义一个’GetTopLinkStack()‘函数，用于返回栈顶的元素；传入’LinkStack top‘栈顶指针；最后返回栈顶元素。
+
+2、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+
+3、若栈不为空，则直接返回栈顶指针（top）的数据域data中的元素，即为栈顶元素。
 
 
 
@@ -830,7 +855,15 @@ void  PrintLinkStack(LinkStack top)
             printf("%d\t", p->data);
             p = p->next;
         }
+       	printf("\n");
     }
 }
 ```
 
+1、定义一个’PrintLinkStack()‘函数，用于返回栈顶的元素；传入’LinkStack top‘栈顶指针。
+
+2、定义一个‘LinkStack p’类型的指针变量top，用来指向当前栈顶指针。
+
+3、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+
+4、若栈不为空，则利用while循环，其判断条件为指针p不等于空；若不为空则打印指针p指向的结点数据域，最后指针p指向p的下一个结点地址指针，起到移动p指针作用，一直遍历到栈底。

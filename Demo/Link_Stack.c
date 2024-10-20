@@ -51,6 +51,7 @@ LinkStack PopLinkStack(LinkStack top)
         DataType x = p->data;
         top = top->next;
         free(p);
+        printf("出栈的元素为：%d\n", x);
         return top;
     }
 }
@@ -81,12 +82,12 @@ void  PrintLinkStack(LinkStack top)
             printf("%d\t", p->data);
             p = p->next;
         }
+        printf("\n");
     }
 }
 
 int main()
 {
-
 
     return 0;
 }
