@@ -10,7 +10,7 @@ typedef struct {
 
 void InitCirQueue(CirQueue *CQ)
 {
-    CQ->front = CQ->rear;
+    CQ->front = CQ->rear = 0;
 }
 
 int EmptyCirQueue(CirQueue *CQ)

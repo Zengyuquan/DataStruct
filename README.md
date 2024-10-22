@@ -867,3 +867,138 @@ void  PrintLinkStack(LinkStack top)
 3、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
 
 4、若栈不为空，则利用while循环，其判断条件为指针p不等于空；若不为空则打印指针p指向的结点数据域，最后指针p指向p的下一个结点地址指针，起到移动p指针作用，一直遍历到栈底。
+
+
+
+
+
+## Seq_CirQueue（顺序循环队列）
+
+### 顺序循环队列
+
+```c
+#define MAXLEN 100
+typedef int DataType;
+typedef struct {
+    DataType data[MAXLEN];
+    int front, rear;
+}CirQueue;
+```
+
+1、首先定义一个顺序栈最大长度的常量——‘MAXLEN’为100。
+
+2、typedef定义‘DataType’为int型，为int起别名，这种做法增强了代码的可读性和可维护性。
+
+3、定义顺序栈的结构体，并起别名为‘CirQueue’；定义顺序栈采用静态分配内存空间，其类型为‘DataType（int）’型的数组，数组长度为‘MAXLEN’；同时也定义两个int型的变量——front、rear来记录顺序循环队列的队头与队尾。
+
+
+
+### 初始化循环队列
+
+```c
+void InitCirQueue(CirQueue *CQ)
+{
+    CQ->front = CQ->rear = 0;
+}
+```
+
+1、定义一个‘InitCirQueue()’函数，其形参是‘CirQueue’类型的指针。
+
+2、将对队头和队尾都置为0；
+
+
+
+### 判断循环队列是否为空
+
+```c
+int EmptyCirQueue(CirQueue *CQ)
+{
+    return CQ->front == CQ->rear;
+}
+```
+
+1、定义一个‘EmptyCirQueue()’函数，其形参是‘CirQueue’类型的指针，返回判断结果‘1’或者‘0’。
+
+2、判断队尾是否等于队头；相等返回1，表示为空；不相等返回0，表示不为空。
+
+
+
+### 判断循环队列是否为满
+
+```c
+int FullCirQueue(CirQueue *CQ)
+{
+    return (CQ->rear + 1) % MAXLEN == CQ->front;
+}
+```
+
+1、定义一个‘FullCirQueue()’函数，其形参是‘CirQueue’类型的指针，返回判断结果‘1’或者‘0’。
+
+2、判断队尾加1的和，再与‘MAXLEN’进行取余运算与队头是否相等；若相等，则返回1，表示队满；不等于队头返回0，表示队未满。
+
+注：
+
+
+
+### 入队
+
+```c
+void InsertCirQueue(CirQueue *CQ, DataType x)
+{
+    if((CQ->rear + 1) % MAXLEN == CQ->front)
+    {
+        printf("队列已满，无法入队！\n");
+        exit(1);
+    }
+    else
+    {
+        CQ->rear = (CQ->rear + 1) % MAXLEN;
+        CQ->data[CQ->rear] = x;
+    }
+}
+```
+
+1、定义一个‘InsertCirQueue()’函数，其形参是‘CirQueue’类型的指针和将入队的元素‘DataType x’。
+
+2、利用if判断队列是否为满，判断条件与上面判断是否为满相同；若为满，则打印‘队列已满，无法入队！’，并执行‘exit(1)’退出程序。
+
+3、若队不为满，则可正常入队，
+
+
+
+### 出队
+
+```c
+DataType DeleteCirQueue(CirQueue *CQ, DataType x)
+{
+    if((CQ->front + 1) % MAXLEN == CQ->rear)
+    {
+        printf("队列为空，无法出队！\n");
+        exit(1);
+    }
+    else
+    {
+        CQ->front = (CQ->front + 1) % MAXLEN;
+        x = CQ->data[CQ->front];
+        return x;
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
