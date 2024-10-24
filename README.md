@@ -936,7 +936,7 @@ int FullCirQueue(CirQueue *CQ)
 
 2、判断队尾加1的和，再与‘MAXLEN’进行取余运算与队头是否相等；若相等，则返回1，表示队满；不等于队头返回0，表示队未满。
 
-注：
+注：循环队列的起始下标是0，假设当前循环队列最大长度是100，‘CQ->front’指向的是0，‘CQ->rear’指向的是99，此时仅判断‘CQ->rear+1’是等于100的，超出了最大长度下标，从而我们需要进行取余的操作，使之变为0；取余操作‘%’可以确保指针在队列中循环移动。
 
 
 
@@ -962,7 +962,9 @@ void InsertCirQueue(CirQueue *CQ, DataType x)
 
 2、利用if判断队列是否为满，判断条件与上面判断是否为满相同；若为满，则打印‘队列已满，无法入队！’，并执行‘exit(1)’退出程序。
 
-3、若队不为满，则可正常入队，
+3、若队不为满，则可正常入队；先移动‘CQ->rear'到下一个位置，与判断为满存在相同，也需要进行取余操作防止超过队列最大长度，确保rear在队列中。
+
+4、再将x赋值给‘CQ->rear'移动后的位置的数作为’CQ->data[]‘下标的数组中。
 
 
 
@@ -983,16 +985,51 @@ DataType DeleteCirQueue(CirQueue *CQ, DataType x)
         return x;
     }
 }
-
 ```
 
+1、定义一个‘DeleteCirQueue()’函数，其形参是‘CirQueue’类型的指针和将出队的元素‘DataType x’，最后返回出队元素x。
+
+2、利用if判断队列是否为空，判断条件是’(CQ->front + 1) % MAXLEN == CQ->rear‘；因为入队操作只移动rear后为rear位置赋值，不移动front，则front位置是不存储数据的；所以需要将front加1，移动到有数据的位置再取余，防止超过队列最大长度，确保front在队列中；若为空，则打印‘队列为空，无法出队！’，并执行‘exit(1)’退出程序。
+
+3、若队不为空，则可正常出队；先移动原本位置的‘CQ->front'到下一个位置，因为当前front位置是不存储数据的；也需要进行取余操作防止超过队列最大长度，确保front在队列中。
+
+4、再将‘CQ->front'移动后的位置的数作为’CQ->data[]‘下标的数组中的数值赋值给x，并将x返回。
 
 
 
+### 输出循环队列的元素
 
+```c
+void PrintCirQueue(CirQueue *CQ)
+{
+    int i = CQ->front;
+    if((CQ->front + 1) % MAXLEN == CQ->rear)
+    {
+        printf("队列为空，无法读取！\n");
+        exit(1);
+    }
+    else
+    {
+        while(i != CQ->rear)
+        {
+            i = (i + 1) % MAXLEN;
+            printf("%d\t", CQ->data[i]);
+        }
+    }
+}
+```
 
+1、定义一个‘PrintCirQueue()’函数，其形参是‘CirQueue’类型的指针。
 
+2、定义一个‘int i’，用来接收’CQ->front‘的信息。
 
+3、利用if判断队列是否为空，判断条件与出队判断是否为空相同；若为空，则打印‘队列为空，无法读取！’，并执行‘exit(1)’退出程序。
+
+4、若队不为空，则可正常打印；利用while循环，循环条件是’i != CQ->rear‘，即’CQ->front != CQ->rear‘，front不等于rear；等于时则说明队列为空，不存在元素。
+
+5、此时i表示是front，’i != CQ->rear’等同于‘CQ->front = (CQ->front + 1) % MAXLEN’；与出队的操作类似，在while循环中不断移动front的位置。
+
+6、最后将front逐步移动过程中位置数作为’CQ->data[]‘下标，把该数组对应的下标元素打印出来。
 
 
 
