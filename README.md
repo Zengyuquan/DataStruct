@@ -772,7 +772,7 @@ LinkStack PushLinkStack(LinkStack top, DataType x)
 
 2、定义一个‘StackNode *p’来接收malloc申请的地址空间指针。申请的地址空间大小为‘StackNode‘变量的大小，类型强转为’StackNode *‘的指针变量。
 
-3、利用if判断，判断p是否为空，若为空，则说明malloc申请的地址空间指针失败；打印“结点空间申请失败！”并exit(1)退出程序。
+3、利用if判断，判断p是否为空，若为空，则说明malloc申请的地址空间指针失败；打印“结点空间申请失败！”并执行exit(1)退出程序。
 
 4、若malloc申请成功，则将x赋值给p的数据域；再将p的指针域指向当前的栈顶结点，即插入新结点到栈中；最后让新插入结点的指针赋值给栈顶指针（top）。
 
@@ -806,7 +806,7 @@ LinkStack PopLinkStack(LinkStack top)
 
 2、定义一个‘StackNode* p’类型的指针变量top，用来表示栈顶指针。
 
-3、利用if判断，判断p是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+3、利用if判断，判断p是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并执行exit(1)退出程序。
 
 4、若栈不为空，则先将栈顶元素赋值给定义的‘DataType x’保存元素；再将栈顶的下一个元素的地址指针赋值给top，表示栈顶指针移动到删除元素的下一个元素位置；再通过‘free(p)’释放删除元素的地址空间。
 
@@ -831,7 +831,7 @@ DataType GetTopLinkStack(LinkStack top)
 
 1、定义一个’GetTopLinkStack()‘函数，用于返回栈顶的元素；传入’LinkStack top‘栈顶指针；最后返回栈顶元素。
 
-2、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+2、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并执行exit(1)退出程序。
 
 3、若栈不为空，则直接返回栈顶指针（top）的数据域data中的元素，即为栈顶元素。
 
@@ -864,7 +864,7 @@ void  PrintLinkStack(LinkStack top)
 
 2、定义一个‘LinkStack p’类型的指针变量top，用来指向当前栈顶指针。
 
-3、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并exit(1)退出程序。
+3、利用if判断，判断top是否为空，若为空，则说明栈为空，无法出栈元素，打印“栈为空！”并执行exit(1)退出程序。
 
 4、若栈不为空，则利用while循环，其判断条件为指针p不等于空；若不为空则打印指针p指向的结点数据域，最后指针p指向p的下一个结点地址指针，起到移动p指针作用，一直遍历到栈底。
 
@@ -1033,9 +1033,205 @@ void PrintCirQueue(CirQueue *CQ)
 
 
 
+## Link_Queue（链队）
+
+### 链队的初始化
+
+```c
+typedef int DataType;
+typedef struct qnode
+{
+    DataType data;
+    struct qnode *next;
+}QNode;
+
+typedef struct
+{
+    QNode *front;
+    QNode *rear;
+}Queue, *QueueList;
+```
+
+1、‘typedef’定义‘DataType’为‘int’型，为’int‘起别名，这种做法增强了代码的可读性和可维护性。
+
+2、定义链队的结构体’qnode‘，并起别名为’QNode‘的结构体变量；结构体中定义了两个变量，其中’DataType data ‘为链队的数据域，用来存储结点的数据；而’struct qnode* next‘;为链队的指针域，存储指向下一个’qnode‘。
+
+3、不仅需要定义链队的结构体，还需要定义一个结构体存储头指针和尾指针；在这个结构体内，定义两个‘QNode’类型的指针变量，*front（头指针）和\*rear（尾指针）；并取别名为‘Queue’的结构体变量和‘\*QueueList’的结构体指针。
 
 
 
+### 初始化链队
+
+```c
+QueueList InitNode()
+{
+    QNode *QN = (QNode *)malloc(sizeof(QNode));
+    QueueList LQ = (Queue *)malloc(sizeof(Queue));
+    QN->next = NULL;
+    LQ->front = QN;
+    LQ->rear = QN;
+    return LQ;
+}
+```
+
+1、定义一个‘InitNode()’函数，用于初始化链栈并返回链队指针结构体的指针；初始化过程包括分配内存、设置初始节点以及设置头尾指针。
+
+2、定义一个‘QNode *QN’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(QNode)’。
+
+3、定义一个‘QueueList LQ’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(Queue)’。
+
+4、将‘QN->next’赋值为NULL，即表示链队中仅存在一个结点，且该节点在后续的操作不会存入数据。
+
+5、将‘LQ->front’与‘LQ->rear’都指向’QN‘，表示初始化了该链队且队列为空。
+
+6、最后将链队指针结构体的指针’LQ‘返回。
 
 
+
+### 判断链队是否为空
+
+```c
+int EmptyLinkQueue(QueueList LQ)
+{
+    return LQ->front == LQ->rear;
+}
+```
+
+1、定义一个‘EmptyLinkQueue()’函数，用于判断链栈是否为空并返回判断的结果；形参是链队指针结构体的指针‘QueueList LQ’。
+
+2、返回‘return LQ->front == LQ->rear’判断的结果，当队头指针等于队尾指针时，链队即为空，返回1；不相等，则不为空，返回0。
+
+
+
+### 入队
+
+```c
+QueueList InsertLinkQueue(QueueList LQ, DataType x)
+{
+    QNode *p = (QNode *) malloc(sizeof(QNode));
+    if(p == NULL)
+    {
+        printf("结点空间分配失败！\n");
+        exit(1);
+    }
+    else
+    {
+        p->data = x;
+        p->next = NULL;
+        LQ->rear->next = p;
+        LQ->rear = p;
+        return LQ;
+    }
+}
+```
+
+1、定义一个‘InsertLinkQueue()’函数，用于将元素入队；形参是链队指针结构体的指针‘QueueList LQ’和将入队的元素‘DataType x’，返回值是链队指针结构体的指针‘QueueList’。
+
+2、定义一个‘QNode *p’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(QNode)’。
+
+3、利用if判断，判断p是否为空，若为空，则说明malloc申请的地址空间指针失败；打印“结点空间分配失败！”并执行exit(1)退出程序。
+
+4、若p不为空，则将x赋值给p所指向结点的数据域；再将p所指向结点的指针域赋值为NULL，表示该链队为最后一个结点。
+
+5、将原本的队尾结点’LQ->rear‘的指针域’next‘指向p所指向结点，使得p指向结点与计划入队的链队链接起来；再移动’LQ->rear‘到p，因为此时的p指向结点才为队尾。
+
+6、最后将链队指针结构体的指针’LQ‘返回。
+
+
+
+### 出队
+
+```c
+QueueList DeleteLinkQueue(QueueList LQ)
+{
+    QNode *p;
+    DataType x;
+    if(LQ->front == LQ->rear)
+    {
+        printf("队列为空！\n");
+        exit(1);
+    }
+    else
+    {
+        p = LQ->front->next;
+        x = p->data;
+        LQ->front->next = p->next;
+        if(p->next == NULL)
+            LQ->rear = LQ->front;
+        free(p);
+    }
+    return LQ;
+}
+```
+
+1、定义一个‘DeleteLinkQueue()’函数，用于将元素出队；形参是链队指针结构体的指针‘QueueList LQ’，返回值是链队指针结构体的指针‘QueueList’。
+
+2、定义一个‘QNode’类型的变量‘*p’；一个‘DataType’类型的变量’x‘。
+
+3、利用if判断，判断链队是否为空，判断条件是’LQ->front == LQ->rear‘，若为空，则无法出队元素，打印“队列为空！”并执行’exit(1)‘退出程序。
+
+4、若不为空，则正常出队；先将队头结点’LQ->front->next‘赋值给p，便于后续操作；再将队头结点’LQ->front->next‘的数据域'data'，此时也就是’p->data‘赋值给’x‘。
+
+5、后移’LQ->front‘，即为后移次队头的位置到p指向结点的下一个结点’p->next‘；p指向结点将出队，p的下一个结点（原本的次队头）将作为队头。
+
+6、假设出队最后一个结点时，此时链队则为空，要将队头指针指向队尾指针；所以需要利用if判断p指向结点的指针域是否为空，若为空则说明p指向结点是队尾结点。
+
+7、最后释放p指向结点的地址空间；并返回链队指针结构体的指针’LQ‘。
+
+
+
+### 获取队头元素
+
+```c
+DataType GetHeadLinkQueue(QueueList LQ)
+{
+    if(LQ->front == LQ->rear)
+    {
+        printf("队列为空！\n");
+        exit(1);
+    }
+    else
+        return LQ->front->next->data;
+}
+```
+
+1、定义一个‘ GetHeadLinkQueue()’函数，用于获取队头元素；形参是链队指针结构体的指针‘QueueList LQ’，返回值是获取到的元素，类型为’DataType‘。
+
+2、利用if判断，判断链队是否为空，判断条件是’LQ->front == LQ->rear‘，若为空，则无法出队元素，打印“队列为空！”并执行’exit(1)‘退出程序。
+
+3、若不为空，则可正常获取元素；对’LQ->front->next‘，即为队头结点，再将该节点的数据域’data’返回。
+
+
+
+### 输出链队元素
+
+```c
+void PrintLinkQueue(QueueList LQ)
+{
+    QNode *p;
+    if(LQ->front == LQ->rear)
+    {
+        printf("队列为空！\n");
+        exit(1);
+    }
+    else
+    {
+        p = LQ->front->next;
+        while(p != LQ->rear->next)
+        {
+            printf("%d\t", p->data);
+            p = p->next;
+        }
+        printf("\n");
+    }
+}
+```
+
+1、定义一个‘PrintLinkQueue()’函数，用于将元素输出打印；形参是链队指针结构体的指针‘QueueList LQ’。
+
+2、定义一个‘QNode’类型的变量‘*p’。
+
+3、利用if判断，判断链队是否为空，判断条件是’LQ->front == LQ->rear‘，若为空，则无法出队元素，打印“队列为空！”并执行’exit(1)‘退出程序。
+
+4、若不为空，则正常输出；将队头结点’LQ->front->next‘赋值给p；利用while循环判断p是否等于队尾‘LQ->rear->next’；若等于则说明链队为空，无元素可输出打印；否则输出打印p指向结点的数据域‘p->data’；最后将p指向结点的下一个结点指针赋值给p，后移p指针。
 

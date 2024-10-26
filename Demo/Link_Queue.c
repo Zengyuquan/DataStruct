@@ -17,7 +17,7 @@ typedef struct
 QueueList InitNode()
 {
     QNode *QN = (QNode *)malloc(sizeof(QNode));
-    QueueList LQ = (QNode *)malloc(sizeof(QNode));
+    QueueList LQ = (Queue *)malloc(sizeof(Queue));
     QN->next = NULL;
     LQ->front = QN;
     LQ->rear = QN;
