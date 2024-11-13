@@ -108,7 +108,7 @@ int main() {
 }
 ```
 
-### 宏定义说明
+### 宏定义与常量
 
 ```c
 #define MAX_EXPR_LEN 100
@@ -121,7 +121,7 @@ int main() {
 
 
 
-### 主函数调用
+### 主函数实现
 
 1、定义一个char类型的数组’expr‘，最大长度为‘MAX_EXPR_LEN’即为100，用来存放从键盘输入的表达式。
 
@@ -135,7 +135,7 @@ int main() {
 
 
 
-### 定义栈及操作函数
+### 栈结构与操作函数
 
 ```c
 // 栈结构
@@ -171,7 +171,7 @@ char popOperator(OperatorStack *s) { return s->items[(s->top)--]; }
 
 
 
-### 判断运算符优先级
+### 运算符优先级判断
 
 ```c
 int precedence(char op) {
@@ -191,7 +191,7 @@ int precedence(char op) {
 
 
 
-### 应用运算符
+### 运算符应用
 
 ```c
 void applyOperator(NumberStack *numbers, char op) {
@@ -216,7 +216,7 @@ void applyOperator(NumberStack *numbers, char op) {
 
 
 
-### 表达式求值
+### 表达式解析与求值	
 
 ```c
 double evaluateExpression(const char *expr) {

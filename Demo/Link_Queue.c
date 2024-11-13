@@ -101,6 +101,13 @@ void PrintLinkQueue(QueueList LQ)
 
 int main()
 {
+    QueueList Num  = InitNode();
+
+    Num = InsertLinkQueue(Num, 10);
+    Num = InsertLinkQueue(Num, 20);
+    Num = InsertLinkQueue(Num, 30);
+
+    PrintLinkQueue(Num);
 
     return 0;
 }

@@ -88,6 +88,18 @@ void  PrintLinkStack(LinkStack top)
 
 int main()
 {
+    LinkStack num;
+    num = InitLinkStack();
+
+    int i;
+    i = EmptyLinkStack(num);
+
+    int nums[10] = {1,2,3,4,5,6,7,8,9,0};
+    for (int j = 0; j < 10; j++) {
+        num = PushLinkStack(num, nums[j]);
+    }
+
+    PrintLinkStack(num);
 
     return 0;
 }

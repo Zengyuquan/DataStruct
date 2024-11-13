@@ -15,7 +15,7 @@ void InitCirQueue(CirQueue *CQ)
 
 int EmptyCirQueue(CirQueue *CQ)
 {
-    return CQ->front = CQ->rear;
+    return CQ->front == CQ->rear;
 }
 
 int FullCirQueue(CirQueue *CQ)
@@ -72,6 +72,15 @@ void PrintCirQueue(CirQueue *CQ)
 
 int main()
 {
+    CirQueue NUM;
+    InitCirQueue(&NUM);
+
+    DataType nums[] = {1, 2, 3, 4, 5};
+    for (int i = 0; i < 5; i++) {
+        InsertCirQueue(&NUM, nums[i]);
+    }
+
+    PrintCirQueue(&NUM);
 
     return 0;
 }

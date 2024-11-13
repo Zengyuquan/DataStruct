@@ -77,7 +77,17 @@ DataType getStack(SeqStack *SS)
 
 int main()
 {
-    InitSeqStack(&SS);
+    SeqStack num;
+    InitSeqStack(&num);
+
+    int nums[10] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+    for (int i = 0; i < 10; i++)
+    {
+        PushSeqStack(&num, nums[i]);
+    }
+
+    DataType x = getStack(&num);
+    printf("%d", x);
 
     return 0;
 }

@@ -874,7 +874,7 @@ void  PrintLinkStack(LinkStack top)
 
 ## Seq_CirQueue（顺序循环队列）
 
-### 顺序循环队列
+### 顺序循环队列的定义
 
 ```c
 #define MAXLEN 100
@@ -1035,7 +1035,7 @@ void PrintCirQueue(CirQueue *CQ)
 
 ## Link_Queue（链队）
 
-### 链队的初始化
+### 链队的定义
 
 ```c
 typedef int DataType;
@@ -1074,7 +1074,7 @@ QueueList InitNode()
 }
 ```
 
-1、定义一个‘InitNode()’函数，用于初始化链栈并返回链队指针结构体的指针；初始化过程包括分配内存、设置初始节点以及设置头尾指针。
+1、定义一个‘InitNode()’函数，用于初始化链队并返回链队指针结构体的指针；初始化过程包括分配内存、设置初始节点以及设置头尾指针。
 
 2、定义一个‘QNode *QN’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(QNode)’。
 
@@ -1097,7 +1097,7 @@ int EmptyLinkQueue(QueueList LQ)
 }
 ```
 
-1、定义一个‘EmptyLinkQueue()’函数，用于判断链栈是否为空并返回判断的结果；形参是链队指针结构体的指针‘QueueList LQ’。
+1、定义一个‘EmptyLinkQueue()’函数，用于判断链队是否为空并返回判断的结果；形参是链队指针结构体的指针‘QueueList LQ’。
 
 2、返回‘return LQ->front == LQ->rear’判断的结果，当队头指针等于队尾指针时，链队即为空，返回1；不相等，则不为空，返回0。
 

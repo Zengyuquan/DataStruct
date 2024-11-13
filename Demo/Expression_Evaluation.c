@@ -94,7 +94,6 @@ double evaluateExpression(const char *expr) {
 
 int main() {
     char expr[MAX_EXPR_LEN];
-    printf("请输入表达式: ");
     fgets(expr, MAX_EXPR_LEN, stdin);
     expr[strcspn(expr, "\n")] = 0; // 移除换行符
 
