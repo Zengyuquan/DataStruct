@@ -1,2 +1,5 @@
 
 *.exe
+*.cmake
+*.yaml
+*.bin
