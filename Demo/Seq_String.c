@@ -11,8 +11,7 @@ typedef struct
 // 赋值
 void StrAssign(SString *S, char chars[])
 {
-    int i;
-    for (i = 0; i < strlen(chars); i++)
+    for (int i = 0; i < strlen(chars); i++)
     {
         S->str[i] = chars[i];
     }
@@ -23,8 +22,7 @@ void StrAssign(SString *S, char chars[])
 // 复制
 void StrCopy(SString *S, SString *T)
 {
-    int i;
-    for (i = 0; i < T->curlen; i++)
+    for (int i = 0; i < T->curlen; i++)
     {
         S->str[i] = T->str[i];
     }

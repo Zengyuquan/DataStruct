@@ -1235,3 +1235,109 @@ void PrintLinkQueue(QueueList LQ)
 
 4、若不为空，则正常输出；将队头结点’LQ->front->next‘赋值给p；利用while循环判断p是否等于队尾‘LQ->rear->next’；若等于则说明链队为空，无元素可输出打印；否则输出打印p指向结点的数据域‘p->data’；最后将p指向结点的下一个结点指针赋值给p，后移p指针。
 
+
+
+## Seq_String（字符串）
+
+### 字符串的定义
+
+```c
+#define MaxLen 100
+typedef struct
+{
+    char str[MaxLen];
+    int curlen;
+}SString;
+```
+
+1、首先定义一个字符串最大长度的常量——‘MAXLen’为100。
+
+2、定义字符串的结构体，并起别名为‘SString’；定义字符串采用静态分配内存空间，其类型为‘str’型的数组，数组长度为‘MAXLen’；同时也定义一个int型的变量’curlen‘来统计字符串的长度。
+
+
+
+### 赋值
+
+```c
+void StrAssign(SString *S, char chars[])
+{
+    for (int i = 0; i < strlen(chars); i++)
+    {
+        S->str[i] = chars[i];
+    }
+    S->curlen = strlen(chars);
+    S->str[S->curlen] = '\0';
+}
+```
+
+1、定义一个‘StrAssign()’函数，用于为字符串赋值；形参是字符串结构体的指针’SString *S‘和将赋值给字符串的数组‘char chars[]’。
+
+2、利用‘for’循环，遍历‘chars[]’数组中的元素赋值到字符串S中，循环的次数是‘chars[]’数组的长度。
+
+3、利用‘strlen()’求出‘chars[]’数组的长度，并赋值给’curlen‘记录字符串中的元素个数。
+
+4、最后将字符串中的最后一个元素的下一个位置，下标巧合是‘chars[]’数组的长度；将该位置的值赋值为‘\0’表示字符串的结束。
+
+
+
+### 复制
+
+```c
+void StrCopy(SString *S, SString *T)
+{
+    for (int i = 0; i < T->curlen; i++)
+    {
+        S->str[i] = T->str[i];
+    }
+    S->curlen = T->curlen;
+    S->str[S->curlen] = '\0';
+}
+```
+
+1、定义一个‘StrCopy()’函数，用于字符串的复制；形参是复制到字符串结构体的指针’SString *S‘和将复制的字符串结构体的指针’SString *T‘。
+
+2、利用‘for’循环，遍历字符串T的元素，并将其复制到字符串S中，循环的次数是字符串T的长度。
+
+3、将字符串T的长度并赋值给字符串S的’curlen‘来记录字符串中的元素个数。
+
+4、最后将字符串中的最后一个元素的下一个位置，下标巧合是字符串S数组的长度；将该位置的值赋值为‘\0’表示字符串的结束。
+
+
+
+### 比较
+
+```c
+int StrEqual(SString *S, SString *T) {
+    if(S->curlen != T->curlen) return 0;
+
+    for (int i = 0; i < S->curlen; i++) {
+        if(S->str[i] != T->str[i]) return 0;
+    }
+    return 1;
+}
+```
+
+1、定义一个‘StrEqual()’函数，用于字符串的比较；形参是将比较的字符串结构体的指针’SString *S‘和’SString *T‘；返回值是‘int’型，若相等返回1；不相等，返回0。。
+
+2、利用‘if’判断字符串S的长度是否与字符串T相等，若不相等则返回0。
+
+3、利用‘for’循环，遍历指针数组S和数组T的元素进行比较，循环的次数是字符串S的长度。
+
+4、在循环体中利用‘if’判断字符串S中的元素是否与字符串T中的数组相等，若不相等则返回0。
+
+5、若两数组的长度与元素都相等，则返回1。
+
+
+
+### 长度
+
+```c
+int Length(SString *S)
+{
+    return S->curlen;
+}
+```
+
+1、定义一个‘Length()’函数，用于求字符串的长度；形参是将求长度的字符串结构体的指针’SString *S‘。
+
+2、直接返回‘S->curlen’即字符串的长度。
