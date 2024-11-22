@@ -67,9 +67,9 @@ void StrCat(SString *CH, SString *S, SString *T)
 void SubString(SString *Sub, SString *S, int pos, int len)
 {
     int i, j = 0;
-    if((pos >= 1 && pos <= S->curlen) && (len >= 0 && len <= S->curlen - pos + 1))
+    if((pos >= 1 && pos <= S->curlen) && (len > 0 && len <= S->curlen - pos + 1))
     {
-        for (i = pos - 1; i <= len + pos - 2; i++)
+        for (i = pos - 1; i < len + pos - 1; i++)
         {
             Sub->str[j++] = S->str[i];
         }
