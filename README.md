@@ -1425,3 +1425,143 @@ int Empty(SString *S)
 1、定义一个‘Empty()’函数，用于判断字符串是否为空；形参是判断的字符串结构体的指针’SString *S‘。
 
 2、直接返回字符串S的长度是否为0的结果。
+
+
+
+### 插入
+
+```c
+int StrInsert(SString *S, int pos, SString *T)
+{
+    int i, k;
+    if(pos < 1 || pos > S->curlen + 1)
+    {
+        return 0;
+    }
+    if(S->curlen + T->curlen <= MaxLen)
+    {
+        for (i = S->curlen; i >= pos - 1; i--)
+        {
+            S->str[i + T->curlen] = S->str[i];
+        }
+        for (i = pos - 1, k = 0; i < pos + T->curlen - 1; i++, k++)
+        {
+            S->str[i] = T->str[k];
+        }
+        S->curlen = S->curlen + T->curlen;
+        S->str[S->curlen] = '\0';
+        return 1;
+    }
+    else
+    {
+        for(i = MaxLen; i <= pos; i--)
+        {
+            S->str[i] = S->str[i - T->curlen];
+        }
+        for(i = pos; i < pos + T->curlen; i++)
+        {
+            S->str[i] = T->str[i - pos];
+        }
+        S->curlen = MaxLen;
+        S->str[S->curlen] = '\0';
+        return 0;
+    }
+}
+```
+
+1、定义一个‘StrInsert()’函数，用于插入字符串；形参是被插入到的字符串结构体的指针’SString *S‘和将插入的字符串结构体的指针’SString *T‘和插入位置’pos‘，结果返回1或者0，表示插入成功或者失败。
+
+2、利用‘if’判断插入位置‘pos’是否小于1或者大于字符串S的长度加一（对应字符串S的最后一个的下一个元素下标值），若符合判断条件则说明插入位置‘pos’插入的位置为非法位置；返回0表示插入失败。
+
+3、利用‘if’判断被插入到的字符串S长度与插入的字符串T的长度和是否小于等于结构体中数组长度为‘MAXLen’。
+
+4、若小于等于结构体中数组长度为‘MAXLen’；首先利用‘for’循环，‘int i’的初始位置是‘S->curlen’为字符串S的长度，终止条件是i小于插入位置‘pos’减一，此处的i采用自减；将字符串S中i对应的下标的元素移动到i加字符串T长度之和的位置；第一次循环将字符串S最后的元素的下一个位置，此位置的元素可能是‘\0’，移动到字符串S长度加字符串T长度之和的位置，第二次循环将字符串S最后的元素移动到字符串S长度加字符串T长度之和的位置减一的位置，依次循环，最后将插入位置‘pos’减一对应的字符串S下标元素移动到插入位置‘pos’加字符串T之和减一对应的下标位置。
+
+5、再次利用‘for’循环，‘int i’的初始值是插入位置‘pos‘减一，’int k‘的初始值是0，终止条件是i大于等于插入位置‘pos’加字符串T长度之和的位置减一，i与k都自增；
+
+
+
+### 删除
+
+```c
+int Delete(SString *S, int pos, int len)
+{
+    int i;
+    if(pos < 1 || pos > S->curlen - len + 1 || len < 0) // 修改了判断条件
+    {
+        return 0;
+    }
+    for (i = pos + len - 1; i < S->curlen; i++)
+    {
+        S->str[i - len] = S->str[i];
+    }
+    S->curlen = S->curlen - len;
+    S->str[S->curlen] = '\0';
+    return 1;
+}
+```
+
+
+
+
+
+
+
+### 替换
+
+```c
+void Replace(SString *S, int pos, int len, SString *T)
+{
+    int k, l, n, m, p;
+    l = pos + len;
+    if(len == T->curlen)
+    {
+        for(k = 0; k < T->curlen; k++)
+        {
+            S->str[pos - 1] = T->str[k];
+            pos++;
+        }
+        S->curlen = S->curlen + T->curlen - len;
+        S->str[S->curlen] = '\0';
+    }
+    else
+    {
+        if(len > T->curlen)
+        {
+            while(S->str[l - 1] != '\0')
+            {
+                m = len - T->curlen;
+                S->str[l - m - 1] = S->str[l - 1];
+                l++;
+            }
+            for (k = 0; k < T->curlen; k++)
+            {
+                S->str[pos - 1] = T->str[k];
+                pos++;
+            }
+            S->curlen = S->curlen + T->curlen - len;
+            S->str[S->curlen] = '\0';
+        }
+        else
+        {
+            if(len < T->curlen){
+                p = n = S->curlen;
+                while(n >= pos + len)
+                {
+                    m = T->curlen - len;
+                    S->str[n + m - 1] = S->str[n - 1];
+                    n--;
+                }
+                for(k = 0; k < T->curlen; k++)
+                {
+                    S->str[pos - 1] = T->str[k];
+                    pos++;
+                }
+            }
+            S->curlen = S->curlen + T->curlen - len;
+            S->str[S->curlen] = '\0';
+        }
+    }
+}
+```
+

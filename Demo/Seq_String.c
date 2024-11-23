@@ -98,7 +98,7 @@ int StrInsert(SString *S, int pos, SString *T)
     }
     if(S->curlen + T->curlen <= MaxLen)
     {
-        for (i = S->curlen; i >= pos - 1; i--)
+        for (i = S->curlen - 1; i >= pos - 1; i--)
         {
             S->str[i + T->curlen] = S->str[i];
         }
