@@ -1270,7 +1270,7 @@ void StrAssign(SString *S, char chars[])
 }
 ```
 
-1、定义一个‘StrAssign()’函数，用于为字符串赋值；形参是字符串结构体的指针’SString *S‘和将赋值给字符串的数组‘char chars[]’。
+1、定义一个‘StrAssign()’函数，用于为字符串赋值；形参是字符串结构体指针’SString *S‘和将赋值给字符串的数组‘char chars[]’。
 
 2、利用‘for’循环，遍历‘chars[]’数组中的元素赋值到字符串S中，循环的次数是‘chars[]’数组的长度。
 
@@ -1294,7 +1294,7 @@ void StrCopy(SString *S, SString *T)
 }
 ```
 
-1、定义一个‘StrCopy()’函数，用于字符串的复制；形参是复制到字符串结构体的指针’SString *S‘和将复制的字符串结构体的指针’SString *T‘。
+1、定义一个‘StrCopy()’函数，用于字符串的复制；形参是复制到字符串结构体指针’SString *S‘和将复制的字符串结构体指针’SString *T‘。
 
 2、利用‘for’循环，遍历字符串T的元素，并将其复制到字符串S中，循环的次数是字符串T的长度。
 
@@ -1317,7 +1317,7 @@ int StrEqual(SString *S, SString *T) {
 }
 ```
 
-1、定义一个‘StrEqual()’函数，用于字符串的比较；形参是将比较的字符串结构体的指针’SString *S‘和’SString *T‘；返回值是‘int’型，若相等返回1；不相等，返回0。
+1、定义一个‘StrEqual()’函数，用于字符串的比较；形参是将比较的字符串结构体指针’SString *S‘和’SString *T‘；返回值是‘int’型，若相等返回1；不相等，返回0。
 
 2、利用‘if’判断字符串S的长度是否与字符串T相等，若不相等则返回0。
 
@@ -1338,7 +1338,7 @@ int Length(SString *S)
 }
 ```
 
-1、定义一个‘Length()’函数，用于求字符串的长度；形参是将求长度的字符串结构体的指针’SString *S‘。
+1、定义一个‘Length()’函数，用于求字符串的长度；形参是将求长度的字符串结构体指针’SString *S‘。
 
 2、直接返回‘S->curlen’即字符串的长度。
 
@@ -1365,7 +1365,7 @@ void StrCat(SString *CH, SString *S, SString *T)
 }
 ```
 
-1、定义一个‘StrCat()’函数，用于字符串的链接；形参是将链接的字符串结构体的指针’SString *S‘和’SString *T‘和链接目的的字符串结构体的指针’SString *CH‘。
+1、定义一个‘StrCat()’函数，用于字符串的链接；形参是将链接的字符串结构体指针’SString *S‘和’SString *T‘和链接目的的字符串结构体指针’SString *CH‘。
 
 2、字符串CH的长度为字符串S与字符串T的和，即为两个字符串链接后的元素个数。
 
@@ -1399,7 +1399,7 @@ void SubString(SString *Sub, SString *S, int pos, int len)
 }
 ```
 
-1、定义一个‘SubString()’函数，用于求字符串的子串；形参是子串存储到的字符串结构体的指针’SString *Sub‘和求子串目标字符串结构体的指针’SString *S‘和起始位置’pos‘和子串的长度’len‘。
+1、定义一个‘SubString()’函数，用于求字符串的子串；形参是子串存储到的字符串结构体指针’SString *Sub‘和求子串目标字符串结构体指针’SString *S‘和起始位置’pos‘和子串的长度’len‘。
 
 2、利用’if‘判断起始位置’pos‘是否大于或等于1且是否小于等于字符串S的长度；且长度大于0，也不能大于字符串S的总个数减去起始位置’pos‘加一的值；如果子串大于该值，则会超过字符串S的长度。
 
@@ -1422,7 +1422,7 @@ int Empty(SString *S)
 }
 ```
 
-1、定义一个‘Empty()’函数，用于判断字符串是否为空；形参是判断的字符串结构体的指针’SString *S‘。
+1、定义一个‘Empty()’函数，用于判断字符串是否为空；形参是判断的字符串结构体指针’SString *S‘。
 
 2、直接返回字符串S的长度是否为0的结果。
 
@@ -1440,7 +1440,7 @@ int StrInsert(SString *S, int pos, SString *T)
     }
     if(S->curlen + T->curlen <= MaxLen)
     {
-        for (i = S->curlen; i >= pos - 1; i--)
+        for (i = S->curlen - 1; i >= pos - 1; i--)
         {
             S->str[i + T->curlen] = S->str[i];
         }
@@ -1454,13 +1454,13 @@ int StrInsert(SString *S, int pos, SString *T)
     }
     else
     {
-        for(i = MaxLen; i <= pos; i--)
+        for(i = MaxLen - 1; i >= pos; i--)
         {
             S->str[i] = S->str[i - T->curlen];
         }
-        for(i = pos; i < pos + T->curlen; i++)
+        for(i = pos - 1; i < pos - 1 + T->curlen; i++)
         {
-            S->str[i] = T->str[i - pos];
+            S->str[i] = T->str[i - pos + 1];
         }
         S->curlen = MaxLen;
         S->str[S->curlen] = '\0';
@@ -1469,15 +1469,27 @@ int StrInsert(SString *S, int pos, SString *T)
 }
 ```
 
-1、定义一个‘StrInsert()’函数，用于插入字符串；形参是被插入到的字符串结构体的指针’SString *S‘和将插入的字符串结构体的指针’SString *T‘和插入位置’pos‘，结果返回1或者0，表示插入成功或者失败。
+1、定义一个‘StrInsert()’函数，用于插入字符串；形参是被插入到的字符串结构体指针’SString *S‘和将插入的字符串结构体指针’SString *T‘和插入位置’pos‘，结果返回1或者0，表示插入成功或者失败。
 
 2、利用‘if’判断插入位置‘pos’是否小于1或者大于字符串S的长度加一（对应字符串S的最后一个的下一个元素下标值），若符合判断条件则说明插入位置‘pos’插入的位置为非法位置；返回0表示插入失败。
 
-3、利用‘if’判断被插入到的字符串S长度与插入的字符串T的长度和是否小于等于结构体中数组长度为‘MAXLen’。
+3、利用‘if’判断被插入到的字符串S长度与插入的字符串T的长度和是否小于等于结构体中数组最大长度为‘MAXLen’。
 
-4、若小于等于结构体中数组长度为‘MAXLen’；首先利用‘for’循环，‘int i’的初始位置是‘S->curlen’为字符串S的长度，终止条件是i小于插入位置‘pos’减一，此处的i采用自减；将字符串S中i对应的下标的元素移动到i加字符串T长度之和的位置；第一次循环将字符串S最后的元素的下一个位置，此位置的元素可能是‘\0’，移动到字符串S长度加字符串T长度之和的位置，第二次循环将字符串S最后的元素移动到字符串S长度加字符串T长度之和的位置减一的位置，依次循环，最后将插入位置‘pos’减一对应的字符串S下标元素移动到插入位置‘pos’加字符串T之和减一对应的下标位置。
+4_1、若小于等于结构体中数组最大长度为‘MAXLen’；首先利用‘for’循环，‘int i’的初始位置是‘S->curlen’为字符串S的长度，终止条件是i小于插入位置‘pos’减一，此处的i采用自减；将字符串S中i对应的下标的元素移动到i加字符串T长度之和的位置；第一次循环将字符串S最后的元素的下一个位置，此位置的元素可能是‘\0’，移动到字符串S长度加字符串T长度之和的位置，第二次循环将字符串S最后的元素移动到字符串S长度加字符串T长度之和减一的位置，依次循环，最后将插入位置‘pos’减一对应的字符串S下标元素移动到插入位置‘pos’加字符串T之和减一对应的下标位置，最终在字符串S中腾出字符串T长度等同的空位。
 
-5、再次利用‘for’循环，‘int i’的初始值是插入位置‘pos‘减一，’int k‘的初始值是0，终止条件是i大于等于插入位置‘pos’加字符串T长度之和的位置减一，i与k都自增；
+4_2、再次利用‘for’循环，‘int i’的初始值是插入位置‘pos‘减一，’int k‘的初始值是0，终止条件是i大于等于插入位置‘pos’加字符串T长度之和的位置减一，i与k都自增；将字符串T的元素填充到字符串S中腾出的空位中。
+
+4_3、插入后字符串S的’curlen‘即为原本的长度加上字符串T的长度。
+
+4_4、最后将字符串S中的最后一个元素的下一个位置，下标巧合是字符串S的长度；将该位置的值赋值为‘\0’表示字符串的结束；并返回1表示插入成功。
+
+5_1、若大于结构体中数组最大长度为‘MAXLen’；首先利用‘for’循环，‘int i’的初始位置是‘S->curlen’为最大长度为‘MAXLen’减一，终止条件是i大于插入位置‘pos’，此处的i采用自减；将字符串S中最后的元素移动到最大长度为‘MAXLen’的位置；第一次循环将字符串S最后的元素，移动到最大长度为‘MAXLen’的位置，第二次循环将字符串S倒数第二的元素移动到最大长度为‘MAXLen’的位置减一的位置，依次循环，最终在字符串S中腾出字符串T长度等同的空位。
+
+5_2、再次利用‘for’循环，‘int i’的初始值是插入位置‘pos‘减一，终止条件是i大于等于插入位置‘pos’加字符串T长度之和的位置减一，i自增；将字符串T的元素填充到字符串S中腾出的空位中。
+
+5_3、插入后字符串S的’curlen‘即为最大长度为‘MAXLen’。
+
+5_4、最后将字符串S中的最后一个元素的下一个位置，下标巧合是字符串S的长度；将该位置的值赋值为‘\0’表示字符串的结束；并返回0表示插入失败（此插入方法，会导致元素的丢失，故插入失败）。
 
 
 
@@ -1487,7 +1499,7 @@ int StrInsert(SString *S, int pos, SString *T)
 int Delete(SString *S, int pos, int len)
 {
     int i;
-    if(pos < 1 || pos > S->curlen - len + 1 || len < 0) // 修改了判断条件
+    if(pos < 1 || pos > S->curlen - len + 1 || len < 0)
     {
         return 0;
     }
@@ -1501,7 +1513,11 @@ int Delete(SString *S, int pos, int len)
 }
 ```
 
+1、定义一个‘Delete()’函数，用于使字符串的删除；形参是将删除的字符串结构体指针’SString *S‘和删除位置’pos‘和删除的长度’len‘。
 
+2、利用‘if’判断删除位置‘pos’是否小于1或者大于字符串S的长度减去删除的长度’len‘加一，若符合判断条件则说明删除位置‘pos’删除的位置为非法位置；返回0表示删除失败。
+
+3、若删除位置为合法位置；则利用利用‘for’循环，‘int i’的初始位置是删除位置’pos‘与删除的长度’len‘之和减一，终止条件是i大于等于字符串S的长度，此处的i采用自增；将字符串S中最后一个元素（非‘\0’）移动到删除位置’pos‘减一的下标位置，依次循环，
 
 
 
@@ -1562,6 +1578,50 @@ void Replace(SString *S, int pos, int len, SString *T)
             S->str[S->curlen] = '\0';
         }
     }
+}
+```
+
+### 定位
+
+```c
+int StrIndex(SString *S, SString *T)
+{
+    int i = 0;
+    int j = 0;
+    while(i < S->curlen && j < T->curlen)
+    {
+        if(S->str[i] == T->str[j])
+        {
+            i++;
+            j++;
+        }
+        else
+        {
+            i = i - j + 1;
+            j = 0;
+        }
+    }
+    if(j == T->curlen)
+    {
+        return i - T->curlen + 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+```
+
+### 输出
+
+```c
+void StrPrint(SString *S)
+{
+    int i;
+    for (i = 0; i < S->curlen; i++) {
+        printf("%c", S->str[i]);
+    }
+    printf("\n");
 }
 ```
 

@@ -112,13 +112,13 @@ int StrInsert(SString *S, int pos, SString *T)
     }
     else
     {
-        for(i = MaxLen; i <= pos; i--)
+        for(i = MaxLen - 1; i >= pos; i--)
         {
             S->str[i] = S->str[i - T->curlen];
         }
-        for(i = pos; i < pos + T->curlen; i++)
+        for(i = pos - 1; i < pos - 1 + T->curlen; i++)
         {
-            S->str[i] = T->str[i - pos];
+            S->str[i] = T->str[i - pos + 1];
         }
         S->curlen = MaxLen;
         S->str[S->curlen] = '\0';
@@ -130,7 +130,7 @@ int StrInsert(SString *S, int pos, SString *T)
 int Delete(SString *S, int pos, int len)
 {
     int i;
-    if(pos < 1 || pos > S->curlen - len + 1 || len < 0) // 修改了判断条件
+    if(pos < 1 || pos > S->curlen - len + 1 || len < 0)
     {
         return 0;
     }
