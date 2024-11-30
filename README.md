@@ -502,7 +502,7 @@ if(i < 1 || i > getLinkListLength(L))
 
 4、利用while循环，条件是(j < i)，通过j计数器的自增和将q的下一个结点指针赋值给q，来实现移动p指针的作用；循环到希望删除的位置的上一个结点。
 
-5、将q指向的下一个结点，即希望删除结点的指针赋值给p；再将希望删除结点的下一个结点地址赋值给的删除结点的上一个节点指针域(q->next)。
+5、将q指向的下一个结点，即希望删除结点的指针赋值给p；再将希望删除结点的下一个结点地址赋值给的删除结点的上一个结点指针域(q->next)。
 
 6、最后free(p)释放p指向结点(希望删除的结点)的地址空间。
 
@@ -1074,13 +1074,13 @@ QueueList InitNode()
 }
 ```
 
-1、定义一个‘InitNode()’函数，用于初始化链队并返回链队指针结构体的指针；初始化过程包括分配内存、设置初始节点以及设置头尾指针。
+1、定义一个‘InitNode()’函数，用于初始化链队并返回链队指针结构体的指针；初始化过程包括分配内存、设置初始结点以及设置头尾指针。
 
 2、定义一个‘QNode *QN’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(QNode)’。
 
 3、定义一个‘QueueList LQ’的指针变量来接收malloc函数分配地址空间的指针，分配的地址空间大小为‘sizeof(Queue)’。
 
-4、将‘QN->next’赋值为NULL，即表示链队中仅存在一个结点，且该节点在后续的操作不会存入数据。
+4、将‘QN->next’赋值为NULL，即表示链队中仅存在一个结点，且该结点在后续的操作不会存入数据。
 
 5、将‘LQ->front’与‘LQ->rear’都指向’QN‘，表示初始化了该链队且队列为空。
 
@@ -1199,7 +1199,7 @@ DataType GetHeadLinkQueue(QueueList LQ)
 
 2、利用if判断，判断链队是否为空，判断条件是’LQ->front == LQ->rear‘，若为空，则无法出队元素，打印“队列为空！”并执行’exit(1)‘退出程序。
 
-3、若不为空，则可正常获取元素；对’LQ->front->next‘，即为队头结点，再将该节点的数据域’data’返回。
+3、若不为空，则可正常获取元素；对’LQ->front->next‘，即为队头结点，再将该结点的数据域’data’返回。
 
 
 
@@ -1517,9 +1517,13 @@ int Delete(SString *S, int pos, int len)
 
 2、利用‘if’判断删除位置‘pos’是否小于1或者大于字符串S的长度减去删除的长度’len‘加一，若符合判断条件则说明删除位置‘pos’删除的位置为非法位置；返回0表示删除失败。
 
-3、若删除位置为合法位置；则利用利用‘for’循环，‘int i’的初始位置是删除位置’pos‘与删除的长度’len‘之和减一，终止条件是i大于等于字符串S的长度，此处的i采用自增；将字符串S中最后一个元素（非‘\0’）移动到删除位置’pos‘减一的下标位置，依次循环，
+3、若删除位置为合法位置；则利用利用‘for’循环，‘int i’的初始位置是删除位置’pos‘与删除的长度’len‘之和减一，终止条件是i大于等于字符串S的长度，此处的i采用自增；将字符串S中最后一个元素（非‘\0’）移动到删除位置’pos‘减一的下标位置，依次循环，将字符串S中‘pos’与‘len’之和的位置后面的元素移动到，删除出现的空位上。
 
+4、字符串S的’curlen‘即为此时字符串自己的长度减去删除的长度’len‘。
 
+5、最后将字符串S中的最后一个元素的下一个位置，下标巧合是字符串S的长度；将该位置的值赋值为‘\0’表示字符串的结束。
+
+6、返回1表示删除成功。
 
 
 
@@ -1612,6 +1616,10 @@ int StrIndex(SString *S, SString *T)
 }
 ```
 
+
+
+
+
 ### 输出
 
 ```c
@@ -1625,3 +1633,192 @@ void StrPrint(SString *S)
 }
 ```
 
+
+
+## BinaryTree（二叉树）
+
+###  二叉树的定义
+
+```c
+#define MAX 100
+
+typedef int DataType;
+typedef struct tnode
+{
+    DataType data;
+    struct tnode *lchild, *rchild;
+}BNode, *BTree;
+
+BNode nodePool[MAX];
+int nodeCount = 0;
+```
+
+1、首先定义一个二叉树结构体内最大的数组长度常量——‘MAX’为100。
+
+2、‘typedef’定义‘DataType’为‘int’型，为’int‘起别名，这种做法增强了代码的可读性和可维护性。
+
+3、定义二叉树的结构体‘tnode’；定义顺序栈采用静态分配内存空间，其类型为‘DataType（int）’型的数组，数组长度为‘MAX’；同时也定义两个‘tnode’型的指针变量——‘lchild’、‘rchild’来记录二叉树的左孩子与右孩子；并结构体起别名BNode、结构体指针BTree。
+
+4、定义一个‘BNode’类型的数组‘nodePool’，意为结点池，存储二叉树的结点，最大长度为‘MAX’。
+
+5、定义一个‘int’型的变量‘nodeCount’，记录结点和个数。
+
+
+
+### 创建结点
+
+```c
+BTree createNode(int x)
+{
+    if (nodeCount >= MAX) {
+        printf("结点池已满，无法创建新结点\n");
+        exit(1);
+    }
+    BTree newNode = &nodePool[nodeCount++];
+    newNode->data = x;
+    newNode->lchild = NULL;
+    newNode->rchild = NULL;
+    return newNode;
+}
+```
+
+1、定义一个‘createNode()’函数，用于创建二叉树的结点；形参是将创建的整型元素‘x’。
+
+2、利用if判断‘nodeCoun’是否大于等于最大的数组长度‘MAX’；若大于，则打印‘结点池已满，无法创建新结点’；执行‘exit(1)’退出程序。
+
+3、若小于，则正常创建结点；先取当前结点池数组中结点个数的下标地址，赋值给创建的’BTree newNode‘新结点地址中。
+
+4、令新结点中的’data‘等于将创建的元素’x‘；新结点左孩子和右孩子都赋值为’NULL‘。
+
+5、最后将新结点地址’BTree newNode‘返回。
+
+
+
+### 打印结点数据
+
+```c
+void PrintNodeData(BTree bt) {
+    if (bt != NULL) {
+        printf("结点数据: %d\n", bt->data);
+    } else {
+        printf("结点为空\n");
+    }
+}
+```
+
+1、定义一个‘PrintNodeData()’函数，用于打印二叉树的结点数据；形参是将打印的二叉树地址’BTree bt‘。
+
+2、利用if判断该地址是否为空；若不为空，打印出该结点的数据；为空则打印‘结点为空’。
+
+
+
+
+
+### 先序遍历
+
+```c
+void PreOrderTraverse(BTree bt)
+{
+    if(bt)
+    {
+        PrintNodeData(bt);
+        PreOrderTraverse(bt->lchild);
+        PreOrderTraverse(bt->rchild);
+    }
+}
+```
+
+1、定义一个‘PreOrderTraverse()’函数，该函数先序遍历二叉树的结点数据；形参是将遍历的二叉树地址’BTree bt‘。
+
+2、利用if判断当前二叉树结点指针是否为空；若不为空：则先调用‘PrintNodeData()’函数打印遍历到的结点数据；再一次调用本函数，但此时的形参是当前结点的左孩子地址，遍历左孩子结点及左孩子的孩子结点，遍历完当前结点的左孩子后，仍然调用本函数，但此时的形参是当前结点的右孩子地址，遍历右孩子结点及右孩子的孩子结点；采用递归的思想遍历二叉树，先序遍历的顺序是根结点、左孩子结点、右孩子结点。
+
+
+
+## 中序遍历
+
+```c
+void InOrderTraverse(BTree bt)
+{
+    if(bt)
+    {
+        InOrderTraverse(bt->lchild);
+        PrintNodeData(bt);
+        InOrderTraverse(bt->rchild);
+    }
+}
+```
+
+1、定义一个‘InOrderTraverse()’函数，该函数中序遍历二叉树的结点数据；形参是将遍历的二叉树地址’BTree bt‘。
+
+2、利用if判断当前二叉树结点指针是否为空；若不为空：首先再次调用本函数，但此时的形参是当前结点的左孩子地址，遍历左孩子结点及左孩子的孩子结点，调用‘PrintNodeData()’函数打印遍历到的结点数据；遍历完当前结点的左孩子后，仍然调用本函数，但此时的形参是当前结点的右孩子地址，遍历右孩子结点及右孩子的孩子结点；采用递归的思想遍历二叉树，中序遍历的顺序是左孩子结点、根结点、右孩子结点。
+
+
+
+### 后序遍历
+
+```c
+void PostOrderTraverse(BTree bt)
+{
+    if(bt)
+    {
+        PostOrderTraverse(bt->lchild);
+        PostOrderTraverse(bt->rchild);
+        PrintNodeData(bt);
+    }
+}
+```
+
+1、定义一个‘PostOrderTraverse()’函数，该函数后序遍历二叉树的结点数据；形参是将遍历的二叉树地址’BTree bt‘。
+
+2、利用if判断当前二叉树结点指针是否为空；若不为空：首先调用本函数，但此时的形参是当前结点的左孩子地址，遍历左孩子结点及左孩子的孩子结点，遍历完当前结点的左孩子后，仍然调用本函数，但此时的形参是当前结点的右孩子地址，遍历右孩子结点及右孩子的孩子结点，调用‘PrintNodeData()’函数打印遍历到的结点数据；采用递归的思想遍历二叉树，后序遍历的顺序是左孩子结点、右孩子结点、根结点。
+
+
+
+### 层序遍历
+
+```c
+void ArraOrderTraverse(BTree bt)
+{
+    int f,r;
+    BNode *p, *q[MAX];
+    p = bt;
+    if(p)
+    {
+        f=1;
+        q[f] = p;
+        r=2;
+    }
+    while (f != r)
+    {
+        p = q[f];
+        printf("%d ", p->data);
+        if(p->lchild != NULL)
+        {
+            q[r] = p->lchild;
+            r = (r + 1) % MAX;
+        }
+        if(p->rchild != NULL)
+        {
+            q[r] = p->rchild;
+            r = (r + 1) % MAX;
+        }
+        f = (f + 1) % MAX;
+    }
+}
+```
+
+1、定义一个‘ArraOrderTraverse()’函数，该函数层序遍历二叉树的结点数据；形参是将遍历的二叉树地址’BTree bt‘。
+
+2、定义以下变量：‘int f’和‘int r’作为队列的前端与尾端；‘BNode *p’指针变量用于遍历结点，‘BNode *q[MAX]’指针数组存储结点指针，最大长度为‘MAX’；并将bt赋值给p。
+
+3、利用if判断p不为空，即bt指针不为空；则将f初始化为1，将p地址存储到‘q[f]’中，r初始化为2。
+
+4_1、利用while循环，判断条件为f不等于r时执行循环体；将‘q[f]’赋值给p，并打印出当前p结点数据。
+
+4_2、利用if判断，判断当前结点p的左孩子是否为空；若不为空，则将左孩子地址存储到当前r值下标的数组q中，并将r加1的和与‘MAX’做模运算，此操作是防止r溢出队列。
+
+4_3、再次利用if判断，判断当前结点p的右孩子是否为空；若不为空，则将右孩子地址存储到当前r值下标的数组q中，并将r加1的和与‘MAX’做模运算，此操作是防止r溢出队列。
+
+4_4、将f加1的和与‘MAX’做模运算，此操作是防止f溢出队列。
+
+5、当遍历到叶子结点的时，r不做增加操作，而f还将继续增加，等到叶子结点都遍历完后，f将等于r，退出循环。

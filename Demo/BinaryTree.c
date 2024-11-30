@@ -10,9 +10,8 @@ typedef struct tnode
     struct tnode *lchild, *rchild;
 }BNode, *BTree;
 
-// 创建结点
-BNode nodePool[MAX];  // 预先分配的节点数组
-int nodeCount = 0;          // 当前已使用的节点数
+BNode nodePool[MAX];
+int nodeCount = 0;
 
 // 创建结点
 BTree createNode(int x)
