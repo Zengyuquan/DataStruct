@@ -1734,7 +1734,7 @@ void PreOrderTraverse(BTree bt)
 
 
 
-## 中序遍历
+### 中序遍历
 
 ```c
 void InOrderTraverse(BTree bt)
